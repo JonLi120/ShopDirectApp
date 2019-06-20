@@ -1,3 +1,94 @@
 <resources>
     <string name="app_name">TwoByTwoShop</string>
+
+    <string name="lab_next">下一步</string>
+    <string name="lab_back">返回</string>
+    <string name="lab_send">送出</string>
+    <string name="lab_search">搜尋</string>
+    <string name="lab_search_hint">輸入產品名稱搜尋</string>
+    <string name="lab_shop_car">購物車</string>
+
+    <!-- login activity start-->
+    <string name="login_activity_login">Login</string>
+    <string name="login_activity_register">Register</string>
+    <!-- login activity end-->
+
+    <!-- login fragment start-->
+    <string name="login_fragment_account">Account</string>
+    <string name="login_fragment_password">Password</string>
+    <string name="login_fragment_login">@string/login_activity_login</string>
+    <!-- login fragment end-->
+
+    <!-- menu start-->
+    <string name="menu_home">首頁</string>
+    <string name="menu_category">產品分類</string>
+    <!-- menu end-->
+
+    <!-- home fragment start-->
+    <string name="home_fragment_head_member">會員(%d)您好，歡迎來到2by2shop</string>
+    <string name="home_fragment_head_proxy">代理(%d)您好，歡迎來到2by2shop</string>
+    <!-- home fragment end-->
+
+    <!-- product item start-->
+    <string name="item_product_like">加入最愛</string>
+    <string name="item_product_price">RM %f</string>
+    <string name="item_product_pp">PP：%d</string>
+    <string name="item_product_cp">CP：%d</string>
+    <!-- product item end-->
+
+    <!-- sign up fragment start-->
+    <string name="sign_up_fragment_registered">註冊</string>
+    <string name="sign_up_fragment_sponsor">推薦人</string>
+    <string name="sign_up_fragment_sponsor_id">推薦人會員ID</string>
+    <string name="sign_up_fragment_custom">會員資訊</string>
+    <string name="sign_up_fragment_name">姓名</string>
+    <string name="sign_up_fragment_passport">NRIC/Passport No</string>
+    <string name="sign_up_fragment_gender">性別</string>
+    <string name="sign_up_fragment_birth">生日</string>
+    <string name="sign_up_fragment_phone">電話號碼</string>
+    <string name="sign_up_fragment_agree">同意</string>
+    <string name="sign_up_fragment_terms">條規與規則</string>
+    <string name="sign_up_fragment_male">男性</string>
+    <string name="sign_up_fragment_female">女性</string>
+    <string name="sign_up_fragment_verify">註冊資料確認</string>
+    <!-- sign up fragment end-->
+    
+    <string name="item_nav_home">首頁</string>
+    <string name="item_nav_category">產品分類</string>
+    <string name="item_nav_change_proxy">切換代理</string>
+    <string name="item_nav_order">我的訂單</string>
+    <string name="item_nav_profile">個人資料</string>
+    <string name="item_nav_point">個人點數</string>
+    <string name="item_nav_company">公司資訊</string>
+    <string name="item_nav_setting">設定</string>
+    <string name="item_nav_gift">贈品</string>
+    <string name="item_nav_deposit">儲值</string>
+    <string name="item_nav_wallet">電子錢包</string>
+    <string name="item_nav_logout">登出</string>
+
+    <!-- product fragment start-->
+    <string name="product_fragment_number_format">型號：%s</string>
+    <string name="product_fragment_quantity">數量：</string>
+    <string name="product_fragment_add_car">新增到購物車</string>
+    <string name="product_fragment_add_wish">新增到最愛</string>
+    <string name="product_fragment_product_description">－ 產品描述 －</string>
+    <!-- product fragment end-->
+
+    <!-- shop car activity start-->
+    <string name="shop_car_activity_title">購物車</string>
+    <string name="shop_car_delivery_lab">配送方式</string>
+    <string name="shop_car_delivery_type_home">宅配服務</string>
+    <string name="shop_car_delivery_type_company">公司自取</string>
+    <string name="shop_car_coupon_lab">優惠碼</string>
+    <string name="shop_car_keep_shopping">繼續購物</string>
+    <string name="shop_car_send_order">送出訂單</string>
+    <!-- shop car activity end-->
+
+    <!-- purchaser activity start-->
+    <string name="purchaser_group_lab">訂購人</string>
+    <string name="receiver_group_lab">收貨人</string>
+    <string name="payment_mode_lab">付款方式</string>
+    <string name="goto_pay">前往付款</string>
+    <!-- purchaser activity end-->
+
 </resources>

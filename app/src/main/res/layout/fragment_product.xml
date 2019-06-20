@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorWindowBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/product_img"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="35dp"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/product_lab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="26sp"
+            app:layout_constraintTop_toBottomOf="@id/product_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"/>
+
+        <TextView
+            android:id="@+id/product_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/product_lab"
+            app:layout_constraintStart_toStartOf="@id/product_lab"
+            app:layout_constraintEnd_toEndOf="@id/product_lab"
+            tools:text="@string/product_fragment_number_format"/>
+
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/product_lab"
+            app:layout_constraintTop_toBottomOf="@id/product_number"
+            tools:text="RM 2000"/>
+
+        <TextView
+            android:id="@+id/product_discount_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorRed"
+            app:layout_constraintStart_toEndOf="@id/product_price"
+            app:layout_constraintTop_toTopOf="@id/product_price"
+            tools:text="RM 1950"/>
+
+        <TextView
+            android:id="@+id/product_qut_lab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_fragment_quantity"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/product_lab"
+            app:layout_constraintTop_toTopOf="@id/product_qut_sub"
+            app:layout_constraintBottom_toBottomOf="@id/product_qut_sub"/>
+
+        <ImageButton
+            android:id="@+id/product_qut_sub"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/ic_subtract"
+            app:layout_constraintStart_toEndOf="@id/product_qut_lab"
+            app:layout_constraintTop_toBottomOf="@id/product_price"/>
+
+        <ImageButton
+            android:id="@+id/product_qut_plus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="80dp"
+            android:background="@drawable/ic_add"
+            app:layout_constraintStart_toEndOf="@id/product_qut_sub"
+            app:layout_constraintBottom_toBottomOf="@id/product_qut_sub"
+            app:layout_constraintTop_toTopOf="@id/product_qut_sub"/>
+
+        <EditText
+            android:id="@+id/product_qut_value"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:background="@drawable/selector_edittext"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="1"
+            app:layout_constraintTop_toTopOf="@id/product_qut_sub"
+            app:layout_constraintStart_toEndOf="@id/product_qut_sub"
+            app:layout_constraintEnd_toStartOf="@id/product_qut_plus"/>
+
+        <Button
+            android:id="@+id/product_add_car"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorBlack"
+            android:textColor="@color/colorWhite"
+            android:text="@string/product_fragment_add_car"
+            app:layout_constraintTop_toBottomOf="@id/product_qut_lab"
+            app:layout_constraintStart_toStartOf="@id/product_lab"
+            app:layout_constraintEnd_toStartOf="@id/product_add_wish"/>
+
+        <Button
+            android:id="@+id/product_add_wish"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/colorBlack"
+            android:textColor="@color/colorWhite"
+            android:text="@string/product_fragment_add_wish"
+            app:layout_constraintTop_toTopOf="@id/product_add_car"
+            app:layout_constraintStart_toEndOf="@id/product_add_car"
+            app:layout_constraintEnd_toEndOf="@id/product_lab"/>
+
+        <TextView
+            android:id="@+id/product_description_lab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/product_fragment_product_description"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/product_add_car"
+            app:layout_constraintStart_toStartOf="@id/product_lab"/>
+
+        <TextView
+            android:id="@+id/product_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/product_description_lab"
+            app:layout_constraintStart_toStartOf="@id/product_lab"
+            app:layout_constraintEnd_toEndOf="@id/product_lab"
+            tools:text="[5 bottles @ 300ml] X 2 boxes
+\n
+Enzy® S.O.D (Blood Detox Enzyme)
+\n
+Superoxide dismutase S.O.D – 150 types fermented plant-based materials (high in natural antioxidant)
+\n
+Deep sea water – 40 types of deep sea minerals (complement the mineral elements required by the human body)
+\n
+Comprehensive Advantages
+\n
+Accelerate blood toxins elimination\n
+Accelerate cell metabolism\n
+Enhance anti-bacterial functions, improve body’s immunity\n
+Strong antioxidant effect, slow down aging process
+\n
+Recommended dosage
+\n
+General Health Maintenance
+\n
+Consume in the morning by adding 30-50ml of Enzy® S.O.D into warm water (should not exceed 40°C). Stir well and serve.
+\n
+Half-Day Detox Treatment
+\n
+Fast for minimum 5 hours after waking up (skip breakfast) and consume at least 50ml or more Enzy® S.O.D every 2 hours. Diluted with warm water (should not exceed 40°C), stir well and serve.
+\n
+3 or 7 days Blood Detox Treatment
+\n
+During fasting period, drink at least one glass of diluted Enzy® S.O.D every 2 hours, at least 6 glasses a day.
+Add 50ml of Enzy® S.O.D into 300ml of warm water (should not exceed 40°C), stir well and serve.
+
+"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

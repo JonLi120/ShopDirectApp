@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorTitleBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:collapseIcon="@drawable/ic_back">
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/purchaser_group1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/purchaser_group_lab"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <include
+                android:id="@+id/purchaser_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/purchaser_group1"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1"/>
+
+            <include
+                android:id="@+id/purchaser_mail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/purchaser_name"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1"/>
+
+            <include
+                android:id="@+id/purchaser_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/purchaser_mail"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1" />
+
+            <TextView
+                android:id="@+id/purchaser_group2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/receiver_group_lab"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@id/purchaser_phone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <include
+                android:id="@+id/receiver_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/purchaser_group2"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1"/>
+
+            <include
+                android:id="@+id/receiver_mail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/receiver_name"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1"/>
+
+            <include
+                android:id="@+id/receiver_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/receiver_mail"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1" />
+
+            <include
+                android:id="@+id/receiver_country"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/receiver_phone"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1" />
+
+            <include
+                android:id="@+id/receiver_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/receiver_country"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1" />
+
+            <include
+                android:id="@+id/receiver_area"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/receiver_city"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1" />
+
+            <include
+                android:id="@+id/receiver_postal_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/receiver_area"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1" />
+
+            <include
+                android:id="@+id/receiver_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/view_purchaser_input"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/receiver_postal_code"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1" />
+
+            <TextView
+                android:id="@+id/purchaser_group3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/payment_mode_lab"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@id/receiver_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <EditText
+                android:id="@+id/payment_mode"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:background="@drawable/selector_edittext"
+                android:layout_marginTop="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@id/purchaser_group3"
+                app:layout_constraintStart_toStartOf="@id/purchaser_group1"
+                app:layout_constraintEnd_toEndOf="@id/purchaser_group1"/>
+
+            <Button
+                android:id="@+id/pay_btn"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:text="@string/goto_pay"
+                android:textSize="16sp"
+                android:background="@color/colorBlack"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintHorizontal_bias="0.8"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintTop_toBottomOf="@id/payment_mode"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

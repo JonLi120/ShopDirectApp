@@ -2,8 +2,13 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="colorWhiteE7">#E7E7E7</color>
+    <color name="colorAccent">#003C33</color>
     <color name="colorYellow">#EFE62A</color>
     <color name="colorGreen">#1F7736</color>
+    <color name="colorWhite">#FFF</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorTitleBar">#F8F8F8</color>
+    <color name="colorWindowBackground">#FAFAFA</color>
+    <color name="colorHint">#C7C7C7</color>
+    <color name="colorRed">#E20202</color>
 </resources>

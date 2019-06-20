@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorTitleBar"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_verify"
+                android:textSize="22sp"
+                android:textColor="@color/colorBlack"
+                android:gravity="center"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/sponsor_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_sponsor_id"
+                android:textSize="22sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sponsor_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/sponsor_lab"
+                tools:text="@string/sign_up_fragment_sponsor_id"/>
+
+            <TextView
+                android:id="@+id/name_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_name"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/sponsor_value" />
+
+            <TextView
+                android:id="@+id/name_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/name_lab"
+                tools:text="@string/sign_up_fragment_name"/>
+
+            <TextView
+                android:id="@+id/passport_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_passport"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/name_value" />
+
+            <TextView
+                android:id="@+id/passport_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/passport_lab"
+                tools:text="@string/sign_up_fragment_passport"/>
+
+            <TextView
+                android:id="@+id/gender_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_gender"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/passport_value" />
+
+            <TextView
+                android:id="@+id/gender_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/gender_lab"
+                tools:text="@string/sign_up_fragment_gender"/>
+
+            <TextView
+                android:id="@+id/birth_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_birth"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/gender_value" />
+
+            <TextView
+                android:id="@+id/birth_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/birth_lab"
+                tools:text="@string/sign_up_fragment_birth"/>
+
+            <TextView
+                android:id="@+id/phone_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_phone"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/birth_value" />
+
+            <TextView
+                android:id="@+id/phone_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/phone_lab"
+                tools:text="@string/sign_up_fragment_phone"/>
+
+            <Button
+                android:id="@+id/back_btn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/lab_back"
+                app:layout_constraintWidth_percent="0.35"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_value"
+                app:layout_constraintEnd_toEndOf="@id/guideline"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <Button
+                android:id="@+id/register_btn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:text="@string/sign_up_fragment_registered"
+                android:textColor="@color/colorYellow"
+                android:backgroundTint="@color/colorGreen"
+                app:layout_constraintWidth_percent="0.35"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/back_btn"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -1,64 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/login_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorWhiteE7">
+    android:background="@color/colorWindowBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:id="@+id/login_frame_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/login_img"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintVertical_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <ImageView
-                android:id="@+id/login_img"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:src="@mipmap/ic_launcher"
-                app:layout_constraintVertical_bias="0.25"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_round_corner"
+            android:text="@string/login_activity_login"
+            android:textAllCaps="false"
+            android:textSize="25sp"
+            android:textColor="@color/colorGreen"
+            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintVertical_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_img"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <Button
-                android:id="@+id/login_btn"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/bg_round_corner"
-                android:text="Login"
-                android:textAllCaps="false"
-                android:textSize="25sp"
-                android:textColor="@color/colorGreen"
-                app:layout_constraintWidth_percent="0.75"
-                app:layout_constraintHeight_percent="0.1"
-                app:layout_constraintVertical_bias="0.25"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/login_img"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <Button
-                android:id="@+id/register_btn"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/bg_round_corner"
-                android:text="Register"
-                android:textAllCaps="false"
-                android:textSize="25sp"
-                android:textColor="@color/colorYellow"
-                app:layout_constraintWidth_percent="0.75"
-                app:layout_constraintHeight_percent="0.1"
-                app:layout_constraintVertical_bias="0.25"
-                app:layout_constraintTop_toBottomOf="@id/login_btn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
-</LinearLayout>
+        <Button
+            android:id="@+id/register_btn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_round_corner"
+            android:text="@string/login_activity_register"
+            android:textAllCaps="false"
+            android:textSize="25sp"
+            android:textColor="@color/colorYellow"
+            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintVertical_bias="0.25"
+            app:layout_constraintTop_toBottomOf="@id/login_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

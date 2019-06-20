@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gender_arr">
+        <item>@string/sign_up_fragment_male</item>
+        <item>@string/sign_up_fragment_female</item>
+    </string-array>
+
+    <string-array name="nav_arr">
+        <item>@string/item_nav_home</item>
+        <item>@string/item_nav_category</item>
+        <item>@string/item_nav_change_proxy</item>
+        <item>@string/item_nav_order</item>
+        <item>@string/item_nav_profile</item>
+        <item>@string/item_nav_point</item>
+        <item>@string/item_nav_company</item>
+        <item>@string/item_nav_setting</item>
+        <item>@string/item_nav_gift</item>
+        <item>@string/item_nav_deposit</item>
+        <item>@string/item_nav_wallet</item>
+        <item>@string/item_nav_logout</item>
+    </string-array>
+</resources>
