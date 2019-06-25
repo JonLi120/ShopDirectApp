@@ -7,6 +7,7 @@ public class SharedPreferencesUtil {
     private static SharedPreferencesUtil util;
     private SharedPreferencesHelper helper;
     private String SP_KEY_LOGIN = "login";
+    private String SP_KEY_UUID = "uuid";
 
     public static SharedPreferencesUtil getInstance() {
         if (util == null) {
@@ -26,5 +27,13 @@ public class SharedPreferencesUtil {
 
     public Boolean getLogin() {
         return helper.getBoolean(SP_KEY_LOGIN, false);
+    }
+
+    public void setUUID(String uuid) {
+        helper.put(SP_KEY_UUID, uuid);
+    }
+
+    public String getUUID() {
+        return helper.getString(SP_KEY_UUID, "");
     }
 }

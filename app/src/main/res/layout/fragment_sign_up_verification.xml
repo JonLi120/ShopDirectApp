@@ -170,6 +170,116 @@
                 app:layout_constraintTop_toBottomOf="@id/phone_lab"
                 tools:text="@string/sign_up_fragment_phone"/>
 
+            <TextView
+                android:id="@+id/spouse_name_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_spouse_name"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/phone_value" />
+
+            <TextView
+                android:id="@+id/spouse_name_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/spouse_name_lab"
+                tools:text="@string/sign_up_fragment_spouse_name"/>
+
+            <TextView
+                android:id="@+id/spouse_ic_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_spouse_ic"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/spouse_name_value" />
+
+            <TextView
+                android:id="@+id/spouse_ic_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/spouse_ic_lab"
+                tools:text="@string/sign_up_fragment_spouse_ic"/>
+
+            <TextView
+                android:id="@+id/state_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_state"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/spouse_ic_value" />
+
+            <TextView
+                android:id="@+id/state_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/state_lab"
+                tools:text="@string/sign_up_fragment_state"/>
+
+            <TextView
+                android:id="@+id/postcode_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_postcode"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/state_value" />
+
+            <TextView
+                android:id="@+id/postcode_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/postcode_lab"
+                tools:text="@string/sign_up_fragment_postcode"/>
+
+            <TextView
+                android:id="@+id/address_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up_fragment_address"
+                android:textSize="22sp"
+                android:layout_marginTop="22dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/postcode_value" />
+
+            <TextView
+                android:id="@+id/address_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="@id/sponsor_lab"
+                app:layout_constraintTop_toBottomOf="@id/address_lab"
+                tools:text="@string/sign_up_fragment_address"/>
+
             <Button
                 android:id="@+id/back_btn"
                 android:layout_width="0dp"
@@ -180,7 +290,7 @@
                 android:text="@string/lab_back"
                 app:layout_constraintWidth_percent="0.35"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/phone_value"
+                app:layout_constraintTop_toBottomOf="@id/address_value"
                 app:layout_constraintEnd_toEndOf="@id/guideline"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 

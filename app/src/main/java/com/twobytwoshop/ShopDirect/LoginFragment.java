@@ -9,12 +9,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.twobytwoshop.ShopDirect.core.BaseActivity;
 import com.twobytwoshop.ShopDirect.core.BaseFragment;
+import com.twobytwoshop.ShopDirect.core.Injection;
+import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
 import com.twobytwoshop.ShopDirect.utils.DisplayUtil;
+import com.twobytwoshop.ShopDirect.viewmodel.LoginViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+
 import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindView;
@@ -55,6 +62,12 @@ public class LoginFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        initView();
+
+        return view;
+    }
+
+    private void initView() {
         int size = DisplayUtil.convertDpToPx(mActivity, 40);
 
         ic_account.setBounds(60, 0, (int)(size * 1.5), size);
@@ -66,16 +79,13 @@ public class LoginFragment extends BaseFragment {
         pwdEdit.setCompoundDrawablePadding(100);
 
         loginBtn.getBackground().mutate().setColorFilter(green, PorterDuff.Mode.SRC_ATOP);
-
-        return view;
     }
 
     @OnClick({R.id.login_btn})
     void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.login_btn:
-                ((LoginActivity) mActivity).startMainActivity();
-                break;
+        if (view.getId() == R.id.login_btn) {
+            assert mActivity != null;
+            ((LoginActivity)mActivity).viewModel.callLogin(accountEdit.getText().toString(), pwdEdit.getText().toString());
         }
     }
 

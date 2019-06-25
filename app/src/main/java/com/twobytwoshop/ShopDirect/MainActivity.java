@@ -2,8 +2,6 @@ package com.twobytwoshop.ShopDirect;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -30,6 +28,7 @@ import com.twobytwoshop.ShopDirect.adapter.DrawerAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseActivity;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import butterknife.BindArray;
 import butterknife.BindColor;
@@ -59,6 +58,8 @@ public class MainActivity extends BaseActivity {
     int hintColor;
     @BindString(R.string.lab_search_hint)
     String searchHintLab;
+    @BindString(R.string.item_nav_logout)
+    String logout;
     @BindDrawable(R.drawable.ic_close)
     Drawable close;
 
@@ -103,20 +104,16 @@ public class MainActivity extends BaseActivity {
         mainNavRcv.setAdapter(adapter);
         mainNavRcv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        mainNavView.setNavigationItemSelectedListener(item -> {
-            mainDrawerLayout.closeDrawer(GravityCompat.START);
-            switch (item.getItemId()) {
-                case R.id.menu_home:
-                    return true;
-                case R.id.menu_category:
-                    return true;
-            }
-            return false;
-        });
-
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 mainDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+            String choiceLab = adapter.getItem(position);
+            if (logout.equals(choiceLab)) {
+                sp.setUUID("");
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -194,10 +191,10 @@ public class MainActivity extends BaseActivity {
         this.invalidateOptionsMenu();
     }
 
-    public void startProductFragment() {
+    public void startProductFragment(String pid) {
         String tag = ProductFragment.class.getSimpleName();
         if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
-            ProductFragment fragment = ProductFragment.newInstance();
+            ProductFragment fragment = ProductFragment.newInstance(pid);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.main_frame_layout, fragment, tag);
             ft.addToBackStack(null);

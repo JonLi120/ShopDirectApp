@@ -7,6 +7,8 @@
     <string name="lab_search">搜尋</string>
     <string name="lab_search_hint">輸入產品名稱搜尋</string>
     <string name="lab_shop_car">購物車</string>
+    <string name="lab_loading">Loading… please wait</string>
+    <string name="format_website">https://2by2shop.com%s</string>
 
     <!-- login activity start-->
     <string name="login_activity_login">Login</string>
@@ -25,15 +27,15 @@
     <!-- menu end-->
 
     <!-- home fragment start-->
-    <string name="home_fragment_head_member">會員(%d)您好，歡迎來到2by2shop</string>
-    <string name="home_fragment_head_proxy">代理(%d)您好，歡迎來到2by2shop</string>
+    <string name="home_fragment_head_member">會員(%s)您好，歡迎來到2by2shop</string>
+    <string name="home_fragment_head_proxy">代理(%s)您好，歡迎來到2by2shop</string>
     <!-- home fragment end-->
 
     <!-- product item start-->
     <string name="item_product_like">加入最愛</string>
-    <string name="item_product_price">RM %f</string>
-    <string name="item_product_pp">PP：%d</string>
-    <string name="item_product_cp">CP：%d</string>
+    <string name="item_product_price">RM %s</string>
+    <string name="item_product_pp">PP：%s</string>
+    <string name="item_product_cp">CP：%s</string>
     <!-- product item end-->
 
     <!-- sign up fragment start-->
@@ -51,10 +53,16 @@
     <string name="sign_up_fragment_male">男性</string>
     <string name="sign_up_fragment_female">女性</string>
     <string name="sign_up_fragment_verify">註冊資料確認</string>
+    <string name="sign_up_fragment_spouse_name">配偶姓名</string>
+    <string name="sign_up_fragment_spouse_ic">配偶身分證</string>
+    <string name="sign_up_fragment_state">地區</string>
+    <string name="sign_up_fragment_postcode">郵遞區號</string>
+    <string name="sign_up_fragment_address">地址</string>
     <!-- sign up fragment end-->
     
     <string name="item_nav_home">首頁</string>
     <string name="item_nav_category">產品分類</string>
+    <string name="item_nav_change_personal">切換個人</string>
     <string name="item_nav_change_proxy">切換代理</string>
     <string name="item_nav_order">我的訂單</string>
     <string name="item_nav_profile">個人資料</string>

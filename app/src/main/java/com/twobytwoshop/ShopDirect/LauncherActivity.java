@@ -22,7 +22,7 @@ public class LauncherActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         new Handler().postDelayed(() -> {
-            if (sp.getLogin()) {
+            if (!sp.getUUID().isEmpty()) {
                 MainActivity.startActivity(this);
             } else {
                 LoginActivity.startActivity(this);

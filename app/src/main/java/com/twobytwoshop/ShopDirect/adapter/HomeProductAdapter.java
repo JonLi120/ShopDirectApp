@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twobytwoshop.ShopDirect.R;
 import com.twobytwoshop.ShopDirect.models.Product;
+import com.twobytwoshop.ShopDirect.models.api.response.HomeResponse;
 
 import java.util.List;
 
@@ -19,12 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.ViewHolder> implements View.OnClickListener{
     private Context context;
-    private List<Product> list;
-    private String format_price, format_pp, format_cp;
+    private List<HomeResponse.DataBean.ProductsBean> list;
+    private String format_price, format_pp, format_cp, format_website;
     private OnItemClickListener mOnItemClickListener = null;
 
     public static interface OnItemClickListener {
-        void onItemClick(View view , int position);
+        void onItemClick(View view , String tag);
     }
 
     public HomeProductAdapter(RecyclerView rcv) {
@@ -32,9 +34,10 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         format_price = this.context.getResources().getString(R.string.item_product_price);
         format_pp = this.context.getResources().getString(R.string.item_product_pp);
         format_cp = this.context.getResources().getString(R.string.item_product_cp);
+        format_website = this.context.getResources().getString(R.string.format_website);
     }
 
-    public void setData(List<Product> list) {
+    public void setData(List<HomeResponse.DataBean.ProductsBean> list) {
         if (this.list != null) {
             this.list.clear();
             this.list.addAll(list);
@@ -54,19 +57,19 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemView.setTag(position);
-        holder.setItemProductImg(R.mipmap.ic_launcher);
+        holder.itemView.setTag(list.get(position).getPID());
+        holder.setItemProductImg(list.get(position).getMain_image());
         holder.setItemProductTitle(list.get(position).getTitle());
-        holder.setItemProductPrice(list.get(position).getPrice());
-        holder.setItemProductDiscountPrice(list.get(position).getDiscount_price());
+        holder.setItemProductPrice(list.get(position).getFixprice());
+        holder.setItemProductDiscountPrice(list.get(position).getPrice());
         holder.setItemProductPp(list.get(position).getPp());
         holder.setItemProductCp(list.get(position).getCp());
-        holder.setItemProductFavorite(list.get(position).isFavorite());
-
-        holder.itemProductFavoriteImg.setOnClickListener((view)->{
-            holder.setItemProductFavorite(!list.get(position).isFavorite());
-            list.get(position).setFavorite(!list.get(position).isFavorite());
-        });
+//        holder.setItemProductFavorite(list.get(position).isFavorite());
+//
+//        holder.itemProductFavoriteImg.setOnClickListener((view)->{
+//            holder.setItemProductFavorite(!list.get(position).isFavorite());
+//            list.get(position).setFavorite(!list.get(position).isFavorite());
+//        });
     }
 
     @Override
@@ -77,7 +80,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     @Override
     public void onClick(View view) {
         if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(view, (int)view.getTag());
+            mOnItemClickListener.onItemClick(view, (String) view.getTag());
         }
     }
 
@@ -110,23 +113,24 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             itemProductTitle.setText(title);
         }
 
-        void setItemProductImg(int img) {
-            Glide.with(context).load(img).into(itemProductImg);
+        void setItemProductImg(String path) {
+            path = String.format(format_website, path);
+            Glide.with(context).load(path).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(itemProductImg);
         }
 
-        void setItemProductPrice(float price) {
+        void setItemProductPrice(String price) {
             itemProductPrice.setText(String.format(format_price, price));
         }
 
-        void setItemProductDiscountPrice(float price) {
+        void setItemProductDiscountPrice(String price) {
             itemProductDiscountPrice.setText(String.format(format_price, price));
         }
 
-        void setItemProductPp(int pp) {
+        void setItemProductPp(String pp) {
             itemProductPp.setText(String.format(format_pp, pp));
         }
 
-        void setItemProductCp(int cp) {
+        void setItemProductCp(String cp) {
             itemProductCp.setText(String.format(format_cp, cp));
         }
 

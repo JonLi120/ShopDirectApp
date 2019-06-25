@@ -18,5 +18,6 @@ public class DrawerAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, String item) {
         helper.setImageResource(R.id.item_nav_img, R.mipmap.ic_launcher_round);
         helper.setText(R.id.item_nav_text, item);
+
     }
 }

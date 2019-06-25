@@ -7,16 +7,42 @@
 
     <string-array name="nav_arr">
         <item>@string/item_nav_home</item>
+        <item>@string/item_nav_profile</item>
         <item>@string/item_nav_category</item>
+        <item>@string/item_nav_change_personal</item>
         <item>@string/item_nav_change_proxy</item>
         <item>@string/item_nav_order</item>
-        <item>@string/item_nav_profile</item>
-        <item>@string/item_nav_point</item>
-        <item>@string/item_nav_company</item>
-        <item>@string/item_nav_setting</item>
         <item>@string/item_nav_gift</item>
         <item>@string/item_nav_deposit</item>
         <item>@string/item_nav_wallet</item>
+        <item>@string/item_nav_company</item>
+        <item>@string/item_nav_setting</item>
         <item>@string/item_nav_logout</item>
     </string-array>
+
+    <string-array name="state_arr">
+        <item>JOHOR</item>
+        <item>KEDAH</item>
+        <item>KELANTAN</item>
+        <item>KUALA LUMPUR</item>
+        <item>LABUAN</item>
+        <item>MELAKA</item>
+        <item>NEGERI SEMBILAN</item>
+        <item>OTHERS</item>
+        <item>PAHANG</item>
+        <item>PERAK</item>
+        <item>PERLIS</item>
+        <item>PULAU LANGKAWI</item>
+        <item>PULAU PINANG</item>
+        <item>PUTRAJAYA</item>
+        <item>SABAH</item>
+        <item>SARAWAK</item>
+        <item>SELANGOR</item>
+        <item>TERENGGANU</item>
+        <item>VIC</item>
+    </string-array>
+
+    <integer-array name="state_num_arr">
+
+    </integer-array>
 </resources>
