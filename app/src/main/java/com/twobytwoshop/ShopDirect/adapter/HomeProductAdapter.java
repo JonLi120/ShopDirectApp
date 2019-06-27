@@ -106,7 +106,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             itemProductDiscountPrice = view.findViewById(R.id.item_product_discount_price);
             itemProductPp = view.findViewById(R.id.item_product_pp);
             itemProductCp = view.findViewById(R.id.item_product_cp);
-            itemProductFavoriteImg = view.findViewById(R.id.item_product_favorite_img);
+//            itemProductFavoriteImg = view.findViewById(R.id.item_product_favorite_img);
         }
 
         void setItemProductTitle(String title) {
@@ -134,12 +134,12 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             itemProductCp.setText(String.format(format_cp, cp));
         }
 
-        void setItemProductFavorite(boolean b) {
-            if (b) {
-                Glide.with(context).load(R.drawable.ic_favorite).into(itemProductFavoriteImg);
-            } else {
-                Glide.with(context).load(R.drawable.ic_favorite_border).into(itemProductFavoriteImg);
-            }
-        }
+//        void setItemProductFavorite(boolean b) {
+//            if (b) {
+//                Glide.with(context).load(R.drawable.ic_favorite).into(itemProductFavoriteImg);
+//            } else {
+//                Glide.with(context).load(R.drawable.ic_favorite_border).into(itemProductFavoriteImg);
+//            }
+//        }
     }
 }

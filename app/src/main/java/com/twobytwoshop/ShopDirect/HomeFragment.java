@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twobytwoshop.ShopDirect.adapter.HomeProductAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseFragment;
@@ -98,10 +99,18 @@ public class HomeFragment extends BaseFragment {
             adapter.setData(homeResponse.getData().getProducts());
             adapter.notifyDataSetChanged();
         });
+
+        viewModel.status.observe(this, map -> {
+            if ("user".equals(map.get("tag"))) {
+                Toast.makeText(mActivity, (String) map.get("context"), Toast.LENGTH_LONG).show();
+                activity.logout();
+            }
+        });
     }
 
     private void initView() {
         viewModel.callHomeData();
+        viewModel.callGetUser();
 
         homeHeaderLab.setText(String.format(member_format, sp.getUUID()));
 

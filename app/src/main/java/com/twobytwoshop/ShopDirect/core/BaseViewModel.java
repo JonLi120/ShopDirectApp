@@ -6,6 +6,9 @@ import com.twobytwoshop.ShopDirect.utils.SharedPreferencesUtil;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import java.util.Map;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public class BaseViewModel extends ViewModel {
@@ -16,6 +19,8 @@ public class BaseViewModel extends ViewModel {
     protected ShowLoadingBean showLoadingBean;
 
     public MutableLiveData<ShowLoadingBean> showLoading = new MutableLiveData<>();
+
+    public MutableLiveData<Map<String, Object>> status = new MutableLiveData<>();
 
     public BaseViewModel() {
         showLoadingBean = new ShowLoadingBean(true);

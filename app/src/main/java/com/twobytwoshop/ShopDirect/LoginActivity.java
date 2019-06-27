@@ -67,7 +67,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        viewModel.getStatus().observe(this, map -> {
+        viewModel.status.observe(this, map -> {
             assert map != null;
             String tag = (String) map.get("tag");
             if ("login".equals(tag)) {

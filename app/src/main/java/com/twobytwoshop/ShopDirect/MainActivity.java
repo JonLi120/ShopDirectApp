@@ -2,6 +2,7 @@ package com.twobytwoshop.ShopDirect;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -26,9 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import com.twobytwoshop.ShopDirect.adapter.DrawerAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseActivity;
+import com.twobytwoshop.ShopDirect.viewmodel.HomeViewModel;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindArray;
 import butterknife.BindColor;
@@ -58,6 +60,14 @@ public class MainActivity extends BaseActivity {
     int hintColor;
     @BindString(R.string.lab_search_hint)
     String searchHintLab;
+    @BindString(R.string.item_nav_change_personal)
+    String personal;
+    @BindString(R.string.item_nav_change_proxy)
+    String proxy;
+    @BindString(R.string.item_nav_category)
+    String category;
+    @BindString(R.string.item_nav_gift)
+    String gift;
     @BindString(R.string.item_nav_logout)
     String logout;
     @BindDrawable(R.drawable.ic_close)
@@ -67,6 +77,9 @@ public class MainActivity extends BaseActivity {
     private boolean isSearch = true;
     private ActionBar actionBar;
     private int carCount = 0;
+    private boolean isProxy = false;
+    private List<Integer> imgArr = new ArrayList<>();
+    private DrawerAdapter adapter;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -100,9 +113,11 @@ public class MainActivity extends BaseActivity {
 
         mainNavRcv.setHasFixedSize(true);
         mainNavRcv.setLayoutManager(new LinearLayoutManager(this));
-        DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(navArr));
+        adapter = new DrawerAdapter(null);
         mainNavRcv.setAdapter(adapter);
         mainNavRcv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        adapter.replaceData(getNavList());
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -110,12 +125,26 @@ public class MainActivity extends BaseActivity {
             }
             String choiceLab = adapter.getItem(position);
             if (logout.equals(choiceLab)) {
-                sp.setUUID("");
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                logout();
+            } else if (proxy.equals(choiceLab)) {
+                isProxy = true;
+                adapter.replaceData(getNavList());
+            } else if (personal.equals(choiceLab)) {
+                isProxy = false;
+                adapter.replaceData(getNavList());
+            } else if (category.equals(choiceLab)) {
+                startCategoryFragment();
+            } else if (gift.equals(choiceLab)) {
+                startGiftsFragment();
             }
         });
+    }
+
+    public void logout() {
+        sp.setUUID("");
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -134,7 +163,7 @@ public class MainActivity extends BaseActivity {
         ImageView imgView = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
         imgView.setImageDrawable(close);
 
-        searchItem.setVisible(!isBack);
+        searchItem.setVisible(false);
 
         // car menu item
         View actionView = menu.findItem(R.id.car).getActionView();
@@ -155,7 +184,9 @@ public class MainActivity extends BaseActivity {
         if (item.getItemId() == android.R.id.home) {
             if (isBack) {
                 getSupportFragmentManager().popBackStack();
-                changeMenuLayout(false, true);
+                if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                    changeMenuLayout(false, true);
+                }
             } else {
                 if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                     mainDrawerLayout.closeDrawer(GravityCompat.START);
@@ -170,7 +201,9 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            sp.setLogin(false);
+            if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                changeMenuLayout(false, true);
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -200,5 +233,62 @@ public class MainActivity extends BaseActivity {
             ft.addToBackStack(null);
             ft.commit();
         }
+    }
+
+    public void startCategoryFragment() {
+        String tag = CategoryFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            CategoryFragment fragment = CategoryFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    public void startCategoryListFragment(String caid) {
+        String tag = ProductListFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            ProductListFragment fragment = ProductListFragment.newInstance(caid);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    public void startGiftsFragment() {
+        String tag = GiftFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            GiftFragment fragment = GiftFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    private List<String> getNavList() {
+        List<String> list = new ArrayList<>();
+        List<Integer> imgList = new ArrayList<>();
+        TypedArray imgs = getResources().obtainTypedArray(R.array.nav_img_arr);
+
+        int count = 0;
+        for (String item : navArr) {
+            if (isProxy) {
+                if (count != 3 && count != 5) {
+                    list.add(item);
+                    imgList.add(imgs.getResourceId(count, 0));
+                }
+            } else {
+                if (count != 2 && count != 6) {
+                    list.add(item);
+                    imgList.add(imgs.getResourceId(count, 0));
+                }
+            }
+            count++;
+        }
+        adapter.setImgs(imgList);
+        return list;
     }
 }

@@ -31,6 +31,7 @@ public class ProductInfoResponse {
         private String sn;
         private String fixprice;
         private String price;
+        private String exchange;
         private String title;
         private String content;
         private String main_image;
@@ -69,6 +70,14 @@ public class ProductInfoResponse {
 
         public void setPrice(String price) {
             this.price = price;
+        }
+
+        public String getExchange() {
+            return exchange;
+        }
+
+        public void setExchange(String exchange) {
+            this.exchange = exchange;
         }
 
         public String getTitle() {

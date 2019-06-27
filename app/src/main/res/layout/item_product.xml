@@ -85,25 +85,25 @@
         app:layout_constraintTop_toBottomOf="@id/item_product_pp"
         tools:text="CP：1890"/>
 
-    <TextView
-        android:id="@+id/item_product_like_lab"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="#6F6F6F"
-        android:text="@string/item_product_like"
-        android:textSize="11sp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+    <!--<TextView-->
+        <!--android:id="@+id/item_product_like_lab"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="#6F6F6F"-->
+        <!--android:text="@string/item_product_like"-->
+        <!--android:textSize="11sp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent" />-->
 
-    <ImageView
-        android:id="@+id/item_product_favorite_img"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/selector_favorite"
-        app:layout_constraintStart_toStartOf="@id/item_product_like_lab"
-        app:layout_constraintEnd_toEndOf="@id/item_product_like_lab"
-        app:layout_constraintBottom_toTopOf="@id/item_product_like_lab" />
+    <!--<ImageView-->
+        <!--android:id="@+id/item_product_favorite_img"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:clickable="true"-->
+        <!--android:focusable="true"-->
+        <!--android:src="@drawable/selector_favorite"-->
+        <!--app:layout_constraintStart_toStartOf="@id/item_product_like_lab"-->
+        <!--app:layout_constraintEnd_toEndOf="@id/item_product_like_lab"-->
+        <!--app:layout_constraintBottom_toTopOf="@id/item_product_like_lab" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

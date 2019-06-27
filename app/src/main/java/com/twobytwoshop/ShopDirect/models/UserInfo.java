@@ -1,5 +1,10 @@
 package com.twobytwoshop.ShopDirect.models;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "user_table")
 public class UserInfo {
 
     /**
@@ -24,6 +29,8 @@ public class UserInfo {
      * CODE : SMS009
      */
 
+    @PrimaryKey
+    @NonNull
     private String uuid;
     private String level;
     private String sponsor;

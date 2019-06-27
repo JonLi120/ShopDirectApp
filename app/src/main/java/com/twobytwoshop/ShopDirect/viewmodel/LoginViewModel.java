@@ -16,12 +16,6 @@ public class LoginViewModel extends BaseViewModel {
 
     private UserRepository userRepository;
 
-    private MutableLiveData<Map<String, Object>> status = new MutableLiveData<>();
-
-    public MutableLiveData<Map<String, Object>> getStatus() {
-        return status;
-    }
-
     public LoginViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

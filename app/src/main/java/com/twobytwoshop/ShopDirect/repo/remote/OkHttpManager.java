@@ -27,9 +27,9 @@ public class OkHttpManager {
                     }
 
                     builder.addNetworkInterceptor(new NetInterceptor());
-                    builder.connectTimeout(30, TimeUnit.SECONDS);
-                    builder.readTimeout(30, TimeUnit.SECONDS);
-                    builder.writeTimeout(30, TimeUnit.SECONDS);
+                    builder.connectTimeout(10, TimeUnit.SECONDS);
+                    builder.readTimeout(10, TimeUnit.SECONDS);
+                    builder.writeTimeout(10, TimeUnit.SECONDS);
                     builder.retryOnConnectionFailure(false);
                     okHttpClient = builder.build();
                 }

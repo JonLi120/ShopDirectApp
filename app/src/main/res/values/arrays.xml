@@ -6,19 +6,28 @@
     </string-array>
 
     <string-array name="nav_arr">
-        <item>@string/item_nav_home</item>
         <item>@string/item_nav_profile</item>
         <item>@string/item_nav_category</item>
         <item>@string/item_nav_change_personal</item>
         <item>@string/item_nav_change_proxy</item>
         <item>@string/item_nav_order</item>
         <item>@string/item_nav_gift</item>
-        <item>@string/item_nav_deposit</item>
         <item>@string/item_nav_wallet</item>
         <item>@string/item_nav_company</item>
-        <item>@string/item_nav_setting</item>
         <item>@string/item_nav_logout</item>
     </string-array>
+
+    <integer-array name="nav_img_arr">
+        <item>@drawable/ic_user</item>
+        <item>@drawable/ic_category</item>
+        <item>@drawable/ic_change</item>
+        <item>@drawable/ic_change</item>
+        <item>@drawable/ic_order</item>
+        <item>@drawable/ic_gift</item>
+        <item>@drawable/ic_wallet</item>
+        <item>@drawable/ic_company</item>
+        <item>@drawable/ic_logout</item>
+    </integer-array>
 
     <string-array name="state_arr">
         <item>JOHOR</item>

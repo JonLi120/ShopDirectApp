@@ -2,7 +2,9 @@ package com.twobytwoshop.ShopDirect;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twobytwoshop.ShopDirect.core.BaseFragment;
 import com.twobytwoshop.ShopDirect.core.Injection;
 import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
+import com.twobytwoshop.ShopDirect.utils.KeyboardUtil;
 import com.twobytwoshop.ShopDirect.viewmodel.ProductViewModel;
 
 import butterknife.BindString;
@@ -71,8 +74,9 @@ public class ProductFragment extends BaseFragment {
     private MainActivity activity;
     private String pid;
     private ProductViewModel viewModel;
+    private int qut = 1;
 
-    public static ProductFragment newInstance(String pid) {
+    static ProductFragment newInstance(String pid) {
         Bundle args = new Bundle();
         args.putString(KEY_PID, pid);
 
@@ -114,13 +118,28 @@ public class ProductFragment extends BaseFragment {
                         .into(productImg);
 
                 productLab.setText(response.getData().getTitle());
-                productNumber.setText(String.format(numberFormat, response.getData().getSn()));
-                productPrice.setText(String.format(priceFormat, response.getData().getFixprice()));
-                productDiscountPrice.setText(String.format(priceFormat, response.getData().getPrice()));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    productDescription.setText(Html.fromHtml(response.getData().getContent(), Html.FROM_HTML_MODE_LEGACY));
+
+                String exchange = response.getData().getExchange();
+                String content = response.getData().getContent();
+
+                if (content == null || content.isEmpty()) {
+                    content = "No product description.";
+                }
+
+                if (exchange != null && !exchange.isEmpty()) {
+                    productNumber.setVisibility(View.GONE);
+                    productDiscountPrice.setVisibility(View.GONE);
+                    productPrice.setText(response.getData().getExchange());
                 } else {
-                    productDescription.setText(Html.fromHtml(response.getData().getContent()));
+                    productNumber.setText(String.format(numberFormat, response.getData().getSn()));
+                    productPrice.setText(String.format(priceFormat, response.getData().getFixprice()));
+                    productDiscountPrice.setText(String.format(priceFormat, response.getData().getPrice()));
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    productDescription.setText(Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY));
+                } else {
+                    productDescription.setText(Html.fromHtml(content));
                 }
             }
         });
@@ -130,16 +149,59 @@ public class ProductFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.callProductInfo(pid);
+
+        productQutValue.addTextChangedListener(listener);
+
+        productQutValue.setOnFocusChangeListener((view1, b) -> {
+            if (!b) {
+                if (productQutValue.getText().toString().isEmpty()) {
+                    productQutValue.setText("1");
+                }
+                KeyboardUtil.hideShowKeyboard(view1, mActivity);
+            }
+        });
     }
 
-    @OnClick({R.id.product_add_car})
+    @OnClick({R.id.product_add_car, R.id.product_qut_plus, R.id.product_qut_sub})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.product_add_car:
                 activity.addCarCount();
                 break;
+            case R.id.product_qut_plus:
+                qut++;
+                productQutValue.setText(String.valueOf(qut));
+                break;
+            case R.id.product_qut_sub:
+                qut--;
+                if (qut <= 0) {
+                    qut = 1;
+                }
+                productQutValue.setText(String.valueOf(qut));
+                break;
         }
     }
+
+    private TextWatcher listener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            productQutValue.removeTextChangedListener(this);
+            if (editable.length() != 0) {
+                qut = Integer.valueOf(editable.toString());
+            }
+            productQutValue.addTextChangedListener(this);
+        }
+    };
 
     @Override
     public void onDetach() {
