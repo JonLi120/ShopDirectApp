@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import com.twobytwoshop.ShopDirect.adapter.DrawerAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseActivity;
-import com.twobytwoshop.ShopDirect.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +57,8 @@ public class MainActivity extends BaseActivity {
     int black;
     @BindColor(R.color.colorHint)
     int hintColor;
+    @BindString(R.string.item_nav_profile)
+    String profile;
     @BindString(R.string.lab_search_hint)
     String searchHintLab;
     @BindString(R.string.item_nav_change_personal)
@@ -136,6 +137,8 @@ public class MainActivity extends BaseActivity {
                 startCategoryFragment();
             } else if (gift.equals(choiceLab)) {
                 startGiftsFragment();
+            } else if (profile.equals(choiceLab)) {
+                startUserFragment();
             }
         });
     }
@@ -261,6 +264,17 @@ public class MainActivity extends BaseActivity {
         String tag = GiftFragment.class.getSimpleName();
         if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
             GiftFragment fragment = GiftFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    public void startUserFragment() {
+        String tag = UserFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            UserFragment fragment = UserFragment.newInstance();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.main_frame_layout, fragment, tag);
             ft.addToBackStack(null);
