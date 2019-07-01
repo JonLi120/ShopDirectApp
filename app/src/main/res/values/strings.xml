@@ -97,6 +97,7 @@
     <string name="receiver_group_lab">收貨人</string>
     <string name="payment_mode_lab">付款方式</string>
     <string name="goto_pay">前往付款</string>
+    <string name="last_step">上一步</string>
     <!-- purchaser activity end-->
 
 </resources>

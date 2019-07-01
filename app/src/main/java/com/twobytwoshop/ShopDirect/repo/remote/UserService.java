@@ -1,8 +1,10 @@
 package com.twobytwoshop.ShopDirect.repo.remote;
 
+import com.twobytwoshop.ShopDirect.models.api.response.BaseResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.LoginResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.RegisterResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.UserInfoResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.WalletResponse;
 
 import java.util.Map;
 
@@ -30,5 +32,15 @@ public interface UserService {
     @POST("/v1/user/register/insert")
     Single<RegisterResponse> signUp(@FieldMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("/v1/user/modify/data")
+    Single<BaseResponse> updateUser(@FieldMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("/v1/user/modify/password")
+    Single<BaseResponse> changePassword(@Field("uuid") String uuid, @Field("oldpass") String old, @Field("newpass") String new_);
+
+    @FormUrlEncoded
+    @POST("/v1/wallet/build")
+    Single<WalletResponse> storedValue(@Field("uuid") String uuid, @Field("price") String price);
 }

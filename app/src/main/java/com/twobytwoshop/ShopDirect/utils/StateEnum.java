@@ -18,6 +18,15 @@ public enum StateEnum {
         return valueOf(name).num;
     }
 
+    public static String getState(int num) {
+        for (StateEnum se :values()) {
+            if (se.num == num) {
+                return se.name().replace("_", " ");
+            }
+        }
+        return "";
+    }
+
     public static ArrayList<String> getList() {
         ArrayList<String> list = new ArrayList<>();
         for (StateEnum se :values()) {

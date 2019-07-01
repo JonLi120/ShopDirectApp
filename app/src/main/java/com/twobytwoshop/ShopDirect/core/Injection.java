@@ -10,7 +10,7 @@ public class Injection {
     public static ViewModelFactory provideViewModelFactory(Context context) {
         AppDatabase db = AppDatabase.getInstance(context);
         UserRepository userRepository = UserRepository.getInstance(db);
-        ProductRepository productRepository = ProductRepository.getInstance();
+        ProductRepository productRepository = ProductRepository.getInstance(db);
 
         return new ViewModelFactory(userRepository, productRepository);
     }

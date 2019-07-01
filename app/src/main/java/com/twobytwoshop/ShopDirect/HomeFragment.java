@@ -110,9 +110,8 @@ public class HomeFragment extends BaseFragment {
 
     private void initView() {
         viewModel.callHomeData();
-        viewModel.callGetUser();
 
-        homeHeaderLab.setText(String.format(member_format, sp.getUUID()));
+        changeHeaderLab(activity.isProxy);
 
         homeBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         homeBanner.setImageLoader(new CustomImageLoader());
@@ -128,9 +127,23 @@ public class HomeFragment extends BaseFragment {
         adapter = new HomeProductAdapter(homeRcv);
         homeRcv.setAdapter(adapter);
         adapter.setOnItemClickListener(((view, position) -> {
-            activity.startProductFragment((String) view.getTag());
+            activity.startProductFragment((String) view.getTag(), 1);
             activity.changeMenuLayout(true, false);
         }));
+    }
+
+    public void changeHeaderLab(boolean b) {
+        if (b) {
+            homeHeaderLab.setText(String.format(proxy_format, sp.getCode()));
+        } else {
+            homeHeaderLab.setText(String.format(member_format, sp.getUUID()));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.callGetUser();
     }
 
     @Override

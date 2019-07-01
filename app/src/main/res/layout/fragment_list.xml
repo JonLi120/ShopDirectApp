@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWindowBackground"
     android:focusable="true"
+    android:clickable="true"
     android:focusableInTouchMode="true">
 
     <androidx.recyclerview.widget.RecyclerView

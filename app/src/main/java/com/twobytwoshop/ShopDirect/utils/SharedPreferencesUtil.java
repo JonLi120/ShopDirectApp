@@ -8,6 +8,9 @@ public class SharedPreferencesUtil {
     private SharedPreferencesHelper helper;
     private String SP_KEY_LOGIN = "login";
     private String SP_KEY_UUID = "uuid";
+    private String SP_KEY_ORDER_STATUS = "order_status";
+    private String SP_KEY_MDID = "mdid";
+    private String SP_KEY_CODE = "mdid_code";
 
     public static SharedPreferencesUtil getInstance() {
         if (util == null) {
@@ -35,5 +38,29 @@ public class SharedPreferencesUtil {
 
     public String getUUID() {
         return helper.getString(SP_KEY_UUID, "");
+    }
+
+    public void setOrderStatus(int status) {
+        helper.put(SP_KEY_ORDER_STATUS, status);
+    }
+
+    public int getOrderStatus() {
+        return helper.getInt(SP_KEY_ORDER_STATUS, 0);
+    }
+
+    public void setMDID(int mdid) {
+        helper.put(SP_KEY_MDID, mdid);
+    }
+
+    public int getMDID() {
+        return helper.getInt(SP_KEY_MDID, 0);
+    }
+
+    public void setCode(String code) {
+        helper.put(SP_KEY_CODE, code);
+    }
+
+    public String getCode() {
+        return helper.getString(SP_KEY_CODE, "");
     }
 }

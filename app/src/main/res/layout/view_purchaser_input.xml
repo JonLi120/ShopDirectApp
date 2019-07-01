@@ -16,11 +16,14 @@
     <EditText
         android:id="@+id/view_input_edit"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textColor="@color/colorBlack"
-        android:background="@drawable/selector_edittext"
+        android:singleLine="true"
+        android:background="@drawable/bg_border_edittext"
         android:layout_marginTop="8dp"
+        android:inputType="textNoSuggestions"
+        android:minHeight="45dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         tools:text="ABCEFGHIJKLM"/>

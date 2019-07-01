@@ -1,9 +1,11 @@
 package com.twobytwoshop.ShopDirect.repo;
 
 import com.twobytwoshop.ShopDirect.models.UserInfo;
+import com.twobytwoshop.ShopDirect.models.api.response.BaseResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.LoginResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.RegisterResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.UserInfoResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.WalletResponse;
 import com.twobytwoshop.ShopDirect.repo.local.AppDatabase;
 import com.twobytwoshop.ShopDirect.repo.local.UserDao;
 import com.twobytwoshop.ShopDirect.repo.remote.RetrofitClient;
@@ -48,6 +50,18 @@ public class UserRepository {
         return service.getUser(uuid);
     }
 
+    public Single<BaseResponse> updateUser(Map<String, String> params) {
+        return service.updateUser(params);
+    }
+
+    public Single<BaseResponse> changePwd(String uuid, String old, String new_) {
+        return service.changePassword(uuid, old, new_);
+    }
+
+    public Single<WalletResponse> storedValue(String uuid, String price) {
+        return service.storedValue(uuid, price);
+    }
+
     public List<UserInfo> searchUser(String uuid) {
         return userDao.searchByUUID(uuid);
     }
@@ -58,5 +72,9 @@ public class UserRepository {
 
     public int deleteUser(UserInfo user) {
         return userDao.delete(user);
+    }
+
+    public void updateUser(UserInfo user) {
+        userDao.update(user);
     }
 }

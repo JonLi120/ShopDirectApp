@@ -51,7 +51,18 @@
         <item>VIC</item>
     </string-array>
 
-    <integer-array name="state_num_arr">
+    <string-array name="marital_arr">
+        <item>Single</item>
+        <item>Married</item>
+    </string-array>
 
-    </integer-array>
+    <string-array name="trans_arr">
+        <item>宅配服務</item>
+        <item>到店自取</item>
+    </string-array>
+
+    <string-array name="pay_arr">
+        <item>ipay88 金流</item>
+        <item>電子錢包付款</item>
+    </string-array>
 </resources>

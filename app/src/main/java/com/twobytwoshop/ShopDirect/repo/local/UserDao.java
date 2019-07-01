@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.twobytwoshop.ShopDirect.models.UserInfo;
 
@@ -20,4 +21,7 @@ public interface UserDao {
 
     @Delete
     int delete(UserInfo user);
+
+    @Update
+    void update(UserInfo user);
 }

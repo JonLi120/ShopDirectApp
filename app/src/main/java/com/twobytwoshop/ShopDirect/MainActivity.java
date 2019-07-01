@@ -13,13 +13,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +31,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import com.twobytwoshop.ShopDirect.adapter.DrawerAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseActivity;
+import com.twobytwoshop.ShopDirect.core.Injection;
+import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
+import com.twobytwoshop.ShopDirect.viewmodel.HomeViewModel;
+import com.twobytwoshop.ShopDirect.viewmodel.ProductViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +75,8 @@ public class MainActivity extends BaseActivity {
     String proxy;
     @BindString(R.string.item_nav_category)
     String category;
+    @BindString(R.string.item_nav_wallet)
+    String wallet;
     @BindString(R.string.item_nav_gift)
     String gift;
     @BindString(R.string.item_nav_logout)
@@ -78,9 +88,10 @@ public class MainActivity extends BaseActivity {
     private boolean isSearch = true;
     private ActionBar actionBar;
     private int carCount = 0;
-    private boolean isProxy = false;
+    public boolean isProxy = false;
     private List<Integer> imgArr = new ArrayList<>();
     private DrawerAdapter adapter;
+    private ProductViewModel viewModel;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -93,8 +104,19 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        setupViewModel();
         setToolbar();
         initView();
+    }
+
+    private void setupViewModel() {
+        ViewModelFactory factory = Injection.provideViewModelFactory(this);
+        viewModel = ViewModelProviders.of(this, factory).get(ProductViewModel.class);
+
+        viewModel.getOrderCount().observe(this, count -> {
+            carCount = count;
+            this.invalidateOptionsMenu();
+        });
     }
 
     private void setToolbar() {
@@ -128,17 +150,43 @@ public class MainActivity extends BaseActivity {
             if (logout.equals(choiceLab)) {
                 logout();
             } else if (proxy.equals(choiceLab)) {
-                isProxy = true;
-                adapter.replaceData(getNavList());
+                if (sp.getMDID() != 0) {
+                    isProxy = true;
+                    adapter.replaceData(getNavList());
+                    Fragment f = getSupportFragmentManager().findFragmentByTag(HomeFragment.class.getSimpleName());
+                    if (f instanceof HomeFragment) {
+                        ((HomeFragment)f).changeHeaderLab(isProxy);
+                    }
+                } else {
+                    Toast.makeText(this, "目前無代理身份", Toast.LENGTH_LONG).show();
+                }
             } else if (personal.equals(choiceLab)) {
                 isProxy = false;
                 adapter.replaceData(getNavList());
+                Fragment f = getSupportFragmentManager().findFragmentByTag(HomeFragment.class.getSimpleName());
+                if (f instanceof HomeFragment) {
+                    ((HomeFragment)f).changeHeaderLab(isProxy);
+                }
             } else if (category.equals(choiceLab)) {
                 startCategoryFragment();
             } else if (gift.equals(choiceLab)) {
                 startGiftsFragment();
             } else if (profile.equals(choiceLab)) {
                 startUserFragment();
+            } else if (wallet.equals(choiceLab)) {
+                startWalletFragment();
+            }
+        });
+
+        getSupportFragmentManager().addOnBackStackChangedListener(() ->{
+            int stackCount = getSupportFragmentManager().getFragments().size();
+
+            if (stackCount > 1) {
+                Fragment f = getSupportFragmentManager().getFragments().get(stackCount - 2);
+
+                if (f instanceof HomeFragment) {
+                    f.onResume();
+                }
             }
         });
     }
@@ -173,12 +221,19 @@ public class MainActivity extends BaseActivity {
         ImageButton carIcon = actionView.findViewById(R.id.badge_icon_button);
         TextView badgeView = actionView.findViewById(R.id.badge_textView);
         if (carCount == 0) {
+            sp.setOrderStatus(0);
             badgeView.setVisibility(View.GONE);
         } else {
             badgeView.setVisibility(View.VISIBLE);
             badgeView.setText(String.valueOf(carCount));
         }
-        carIcon.setOnClickListener(view -> ShopCarActivity.startActivity(this));
+        carIcon.setOnClickListener(view -> {
+            if (carCount == 0) {
+                Toast.makeText(this, "購物車無商品", Toast.LENGTH_LONG).show();
+            } else {
+                ShopCarActivity.startActivity(this, isProxy);
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -222,15 +277,14 @@ public class MainActivity extends BaseActivity {
         this.invalidateOptionsMenu();
     }
 
-    public void addCarCount() {
-        carCount++;
-        this.invalidateOptionsMenu();
+    public void addShopCar() {
+        viewModel.getOrderProductCount();
     }
 
-    public void startProductFragment(String pid) {
+    public void startProductFragment(String pid, int type) {
         String tag = ProductFragment.class.getSimpleName();
         if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
-            ProductFragment fragment = ProductFragment.newInstance(pid);
+            ProductFragment fragment = ProductFragment.newInstance(pid, type);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.main_frame_layout, fragment, tag);
             ft.addToBackStack(null);
@@ -282,6 +336,28 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void startChangePwdFragment() {
+        String tag = ChangePwdFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            ChangePwdFragment fragment = ChangePwdFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    public void startWalletFragment() {
+        String tag = WalletFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            WalletFragment fragment = WalletFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
     private List<String> getNavList() {
         List<String> list = new ArrayList<>();
         List<Integer> imgList = new ArrayList<>();
@@ -304,5 +380,11 @@ public class MainActivity extends BaseActivity {
         }
         adapter.setImgs(imgList);
         return list;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        addShopCar();
     }
 }

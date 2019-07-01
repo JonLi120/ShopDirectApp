@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twobytwoshop.ShopDirect.core.BaseFragment;
 import com.twobytwoshop.ShopDirect.core.Injection;
 import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
+import com.twobytwoshop.ShopDirect.models.Order;
+import com.twobytwoshop.ShopDirect.models.api.response.ProductInfoResponse;
 import com.twobytwoshop.ShopDirect.utils.KeyboardUtil;
 import com.twobytwoshop.ShopDirect.viewmodel.ProductViewModel;
 
@@ -35,6 +38,7 @@ import butterknife.Unbinder;
 public class ProductFragment extends BaseFragment {
 
     private static final String KEY_PID = "KEY_PID";
+    private static final String KEY_TYPE = "KEY_TYPE";
 
     @BindView(R.id.product_img)
     ImageView productImg;
@@ -75,10 +79,13 @@ public class ProductFragment extends BaseFragment {
     private String pid;
     private ProductViewModel viewModel;
     private int qut = 1;
+    private int type;
+    private ProductInfoResponse.DataBean product;
 
-    static ProductFragment newInstance(String pid) {
+    static ProductFragment newInstance(String pid, int type) {
         Bundle args = new Bundle();
         args.putString(KEY_PID, pid);
+        args.putInt(KEY_TYPE, type);
 
         ProductFragment fragment = new ProductFragment();
         fragment.setArguments(args);
@@ -91,6 +98,7 @@ public class ProductFragment extends BaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             pid = bundle.getString(KEY_PID);
+            type = bundle.getInt(KEY_TYPE);
         }
     }
 
@@ -109,8 +117,17 @@ public class ProductFragment extends BaseFragment {
         ViewModelFactory factory = Injection.provideViewModelFactory(mActivity);
         viewModel = ViewModelProviders.of(this, factory).get(ProductViewModel.class);
 
+        viewModel.showLoading.observe(this, showLoadingBean -> {
+            if (showLoadingBean.isShow()) {
+                ((MainActivity) mActivity).showLoadingDialog(showLoadingBean.getContent());
+            } else {
+                ((MainActivity) mActivity).dismissLoadingDialog();
+            }
+        });
+
         viewModel.getProduct().observe(this, response -> {
             if (response.getCode().equals("100")) {
+                product = response.getData();
                 Glide.with(this)
                         .load(String.format(websiteFormat, response.getData().getMain_image()))
                         .skipMemoryCache(true)
@@ -143,6 +160,17 @@ public class ProductFragment extends BaseFragment {
                 }
             }
         });
+
+        viewModel.status.observe(this, map -> {
+            if ("insert order".equals(map.get("tag"))) {
+                if ((int) map.get("code") < 0) {
+                    Toast.makeText(mActivity, (String) map.get("content"), Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    activity.addShopCar();
+                }
+            }
+        });
     }
 
     @Override
@@ -166,7 +194,7 @@ public class ProductFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.product_add_car:
-                activity.addCarCount();
+                viewModel.insertOrder(createOrder(), type);
                 break;
             case R.id.product_qut_plus:
                 qut++;
@@ -202,6 +230,23 @@ public class ProductFragment extends BaseFragment {
             productQutValue.addTextChangedListener(this);
         }
     };
+
+    private Order createOrder() {
+        if (product == null) {
+            return null;
+        }
+        Order order = new Order();
+        order.setImg(product.getMain_image());
+        order.setPid(product.getPID());
+        if (type == 1)
+            order.setPrice(product.getPrice());
+        else
+            order.setPrice(product.getExchange());
+        order.setQut(Integer.valueOf(productQutValue.getText().toString()));
+        order.setTag(type);
+        order.setTitle(product.getTitle());
+        return order;
+    }
 
     @Override
     public void onDetach() {

@@ -84,7 +84,7 @@ public class ProductListFragment extends BaseFragment {
         adapter = new ProductListAdapter(null);
         rcv.setAdapter(adapter);
         adapter.setOnItemClickListener(((adapter1, view, position) -> {
-            ((MainActivity)mActivity).startProductFragment((String) view.getTag());
+            ((MainActivity)mActivity).startProductFragment((String) view.getTag(), 1);
 //            activity.changeMenuLayout(true, false);
         }));
     }

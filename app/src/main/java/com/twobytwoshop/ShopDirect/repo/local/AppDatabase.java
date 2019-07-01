@@ -6,15 +6,17 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.twobytwoshop.ShopDirect.models.Order;
 import com.twobytwoshop.ShopDirect.models.UserInfo;
 
-@Database(entities = {UserInfo.class}, version = 1, exportSchema = false)
+@Database(entities = {UserInfo.class, Order.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase appDatabase;
     private static final Object sLock = new Object();
 
     public abstract UserDao userDao();
+    public abstract OrderDao orderDao();
 
     public static AppDatabase getInstance(Context context) {
         synchronized (sLock) {

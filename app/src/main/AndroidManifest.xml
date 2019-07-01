@@ -45,6 +45,8 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity android:name=".ShopCarActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".PurchaserActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

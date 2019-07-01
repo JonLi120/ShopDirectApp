@@ -26,10 +26,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_layout">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -193,10 +194,12 @@
                 android:layout_height="45dp"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"
-                android:background="@drawable/selector_edittext"
+                android:background="@drawable/bg_border_edittext"
                 android:layout_marginTop="16dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:focusable="false"
+                android:inputType="textNoSuggestions"
                 app:layout_constraintTop_toBottomOf="@id/purchaser_group3"
                 app:layout_constraintStart_toStartOf="@id/purchaser_group1"
                 app:layout_constraintEnd_toEndOf="@id/purchaser_group1"/>
@@ -207,15 +210,30 @@
                 android:layout_height="45dp"
                 android:text="@string/goto_pay"
                 android:textSize="16sp"
+                android:textColor="@color/colorWhite"
                 android:background="@color/colorBlack"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintHorizontal_bias="0.8"
                 app:layout_constraintWidth_percent="0.4"
                 app:layout_constraintTop_toBottomOf="@id/payment_mode"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/back_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <Button
+                android:id="@+id/back_btn"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:text="@string/last_step"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorBlack"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintTop_toTopOf="@id/pay_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/pay_btn"
+                app:layout_constraintBottom_toBottomOf="@id/pay_btn"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

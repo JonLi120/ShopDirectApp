@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorWindowBackground"
     android:focusableInTouchMode="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -203,7 +204,6 @@
                     android:id="@+id/wechat_edit"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:focusable="false"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:background="@drawable/bg_border_edittext"
@@ -227,7 +227,6 @@
                     android:id="@+id/mail_edit"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:focusable="false"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="10dp"
                     android:paddingStart="8dp"
@@ -284,7 +283,9 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:background="@drawable/bg_border_edittext"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:inputType="phone"
+                    android:imeOptions="actionDone"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -301,7 +302,9 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:background="@drawable/bg_border_edittext"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:inputType="phone"
+                    android:imeOptions="actionDone"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -319,7 +322,9 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:background="@drawable/bg_border_edittext"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:inputType="phone"
+                    android:imeOptions="actionDone"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -375,6 +380,7 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:background="@drawable/bg_border_edittext"
+                    android:inputType="textNoSuggestions"
                     app:layout_constraintTop_toBottomOf="@id/state_lab"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/postcode_edit"
@@ -417,14 +423,14 @@
                 <EditText
                     android:id="@+id/address_edit"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="10dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:background="@drawable/bg_border_edittext"
-                    android:singleLine="true"
                     android:imeOptions="actionDone"
+                    android:minHeight="40dp"
                     app:layout_constraintTop_toBottomOf="@id/address_lab"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -520,5 +526,37 @@
                     layout="@layout/view_lock_item" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/change_pwd_btn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:background="@color/colorBlack"
+                android:textColor="@color/colorWhite"
+                android:text="修改密碼"
+                app:layout_constraintWidth_percent="0.34"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/modified_btn"/>
+
+            <Button
+                android:id="@+id/modified_btn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:background="@color/colorBlack"
+                android:textColor="@color/colorWhite"
+                android:text="送出修改"
+                app:layout_constraintWidth_percent="0.34"
+                app:layout_constraintStart_toEndOf="@id/change_pwd_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/change_pwd_btn"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

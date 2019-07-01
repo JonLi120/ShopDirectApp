@@ -69,7 +69,7 @@ public class GiftFragment extends BaseFragment {
         rcv.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
         adapter = new ProductListAdapter(null);
         rcv.setAdapter(adapter);
-        adapter.setOnItemClickListener(((adapter1, view, position) -> ((MainActivity)mActivity).startProductFragment((String) view.getTag())));
+        adapter.setOnItemClickListener(((adapter1, view, position) -> ((MainActivity)mActivity).startProductFragment((String) view.getTag(), 2)));
     }
 
     @Override
