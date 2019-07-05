@@ -8,7 +8,7 @@ public class SharedPreferencesUtil {
     private SharedPreferencesHelper helper;
     private String SP_KEY_LOGIN = "login";
     private String SP_KEY_UUID = "uuid";
-    private String SP_KEY_ORDER_STATUS = "order_status";
+    private String SP_KEY_ORDER_STATUS = "order_status"; // 1:一般商品，2:贈品
     private String SP_KEY_MDID = "mdid";
     private String SP_KEY_CODE = "mdid_code";
 

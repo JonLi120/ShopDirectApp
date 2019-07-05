@@ -68,6 +68,16 @@ public class WalletFragment extends BaseFragment {
             this.userInfo = userInfo;
             currentWalletValue.setText(String.format(priceFormat, userInfo.getE_wallet()));
         });
+
+        viewModel.status.observe(this, map ->{
+            if ("wallet".equals(map.get("tag"))) {
+                if ("100".equals(map.get("code"))) {
+                    WebActivity.startActivity(mActivity, (String) map.get("url"));
+                } else {
+                    Toast.makeText(mActivity, (String) map.get("content"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         return view;
     }
 

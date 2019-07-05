@@ -5,6 +5,7 @@ import com.twobytwoshop.ShopDirect.models.Order;
 import com.twobytwoshop.ShopDirect.models.api.response.CarResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.CategoryResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.HomeResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.OrderResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.ProductInfoResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.ProductListResponse;
 import com.twobytwoshop.ShopDirect.repo.local.AppDatabase;
@@ -80,7 +81,15 @@ public class ProductRepository {
         return orderDao.updateOrderById(pid, num);
     }
 
+    public int deleteAll() {
+        return orderDao.deleteAll();
+    }
+
     public Single<CarResponse> callCarInfo(Map<String, String> parameter) {
         return orderService.callCarInfo(parameter);
+    }
+
+    public Single<OrderResponse> buildOrder(Map<String, String> parameter) {
+        return orderService.buildOrder(parameter);
     }
 }

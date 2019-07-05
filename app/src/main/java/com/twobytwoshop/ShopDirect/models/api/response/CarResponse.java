@@ -6,7 +6,7 @@ public class CarResponse {
 
     /**
      * code : 100
-     * data : {"product_price":104.13,"discount_code":"","order_sm_price":104.13,"point":0,"uppoint":0,"agent":"0","agent_bonus":0,"order_pay_point":0,"firstkind":0,"ap_sum":3.51,"order_product":[{"PID":"25","dtype":"product","CAID":"6","image":"/content/product/34114c8f9573af723fc5b9b2a15956b4.jpg","title":"APPETON MULTIVITAMIN LYSINE WITH PREBIOTICS","qty":"3","price":34.71,"ap":"1.17","oprice":"35.88","point":0,"fare":"15","nextfare":"1","cp":"1","spread":"0.8","discount":"0","level_price":"{\"105\":\"35.88\",\"110\":\"35.88\",\"115\":\"35.88\",\"120\":\"35.88\",\"125\":\"35.88\",\"130\":\"35.88\"}","cfare":"1"}],"discount_list":[],"tran_price":17,"order_price":121.13,"cp":0,"spread":0,"order_kind":"product"}
+     * data : {"product_price":104.13,"tran_price":17,"discount_price":0,"order_price":121.13,"order_product":[{"PID":"25","dtype":"product","CAID":"6","image":"/content/product/34114c8f9573af723fc5b9b2a15956b4.jpg","title":"APPETON MULTIVITAMIN LYSINE WITH PREBIOTICS","qty":"3","price":34.71,"ap":"1.17","oprice":"35.88","point":0,"fare":"15","nextfare":"1","cp":"1","spread":"0.8","discount":"0","level_price":"{\"105\":\"35.88\",\"110\":\"35.88\",\"115\":\"35.88\",\"120\":\"35.88\",\"125\":\"35.88\",\"130\":\"35.88\"}","cfare":"1"}],"discount_list":[],"discount_code":""}
      */
 
     private String code;
@@ -31,39 +31,19 @@ public class CarResponse {
     public static class DataBean {
         /**
          * product_price : 104.13
-         * discount_code :
-         * order_sm_price : 104.13
-         * point : 0
-         * uppoint : 0
-         * agent : 0
-         * agent_bonus : 0
-         * order_pay_point : 0
-         * firstkind : 0
-         * ap_sum : 3.51
+         * tran_price : 17
+         * discount_price : 0
+         * order_price : 121.13
          * order_product : [{"PID":"25","dtype":"product","CAID":"6","image":"/content/product/34114c8f9573af723fc5b9b2a15956b4.jpg","title":"APPETON MULTIVITAMIN LYSINE WITH PREBIOTICS","qty":"3","price":34.71,"ap":"1.17","oprice":"35.88","point":0,"fare":"15","nextfare":"1","cp":"1","spread":"0.8","discount":"0","level_price":"{\"105\":\"35.88\",\"110\":\"35.88\",\"115\":\"35.88\",\"120\":\"35.88\",\"125\":\"35.88\",\"130\":\"35.88\"}","cfare":"1"}]
          * discount_list : []
-         * tran_price : 17
-         * order_price : 121.13
-         * cp : 0
-         * spread : 0
-         * order_kind : product
+         * discount_code :
          */
 
         private double product_price;
-        private String discount_code;
-        private double order_sm_price;
-        private int point;
-        private int uppoint;
-        private String agent;
-        private int agent_bonus;
-        private int order_pay_point;
-        private int firstkind;
-        private double ap_sum;
         private int tran_price;
+        private int discount_price;
         private double order_price;
-        private int cp;
-        private int spread;
-        private String order_kind;
+        private String discount_code;
         private List<OrderProductBean> order_product;
         private List<?> discount_list;
 
@@ -75,84 +55,20 @@ public class CarResponse {
             this.product_price = product_price;
         }
 
-        public String getDiscount_code() {
-            return discount_code;
-        }
-
-        public void setDiscount_code(String discount_code) {
-            this.discount_code = discount_code;
-        }
-
-        public double getOrder_sm_price() {
-            return order_sm_price;
-        }
-
-        public void setOrder_sm_price(double order_sm_price) {
-            this.order_sm_price = order_sm_price;
-        }
-
-        public int getPoint() {
-            return point;
-        }
-
-        public void setPoint(int point) {
-            this.point = point;
-        }
-
-        public int getUppoint() {
-            return uppoint;
-        }
-
-        public void setUppoint(int uppoint) {
-            this.uppoint = uppoint;
-        }
-
-        public String getAgent() {
-            return agent;
-        }
-
-        public void setAgent(String agent) {
-            this.agent = agent;
-        }
-
-        public int getAgent_bonus() {
-            return agent_bonus;
-        }
-
-        public void setAgent_bonus(int agent_bonus) {
-            this.agent_bonus = agent_bonus;
-        }
-
-        public int getOrder_pay_point() {
-            return order_pay_point;
-        }
-
-        public void setOrder_pay_point(int order_pay_point) {
-            this.order_pay_point = order_pay_point;
-        }
-
-        public int getFirstkind() {
-            return firstkind;
-        }
-
-        public void setFirstkind(int firstkind) {
-            this.firstkind = firstkind;
-        }
-
-        public double getAp_sum() {
-            return ap_sum;
-        }
-
-        public void setAp_sum(double ap_sum) {
-            this.ap_sum = ap_sum;
-        }
-
         public int getTran_price() {
             return tran_price;
         }
 
         public void setTran_price(int tran_price) {
             this.tran_price = tran_price;
+        }
+
+        public int getDiscount_price() {
+            return discount_price;
+        }
+
+        public void setDiscount_price(int discount_price) {
+            this.discount_price = discount_price;
         }
 
         public double getOrder_price() {
@@ -163,28 +79,12 @@ public class CarResponse {
             this.order_price = order_price;
         }
 
-        public int getCp() {
-            return cp;
+        public String getDiscount_code() {
+            return discount_code;
         }
 
-        public void setCp(int cp) {
-            this.cp = cp;
-        }
-
-        public int getSpread() {
-            return spread;
-        }
-
-        public void setSpread(int spread) {
-            this.spread = spread;
-        }
-
-        public String getOrder_kind() {
-            return order_kind;
-        }
-
-        public void setOrder_kind(String order_kind) {
-            this.order_kind = order_kind;
+        public void setDiscount_code(String discount_code) {
+            this.discount_code = discount_code;
         }
 
         public List<OrderProductBean> getOrder_product() {

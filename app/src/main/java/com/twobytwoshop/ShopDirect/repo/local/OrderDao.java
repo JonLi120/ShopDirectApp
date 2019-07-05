@@ -25,4 +25,7 @@ public interface OrderDao {
 
     @Query("update order_table set qut = qut + :num where pid = :pid")
     int updateOrderById(String pid, int num);
+
+    @Query("delete from order_table")
+    int deleteAll();
 }

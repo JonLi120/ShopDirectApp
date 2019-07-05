@@ -80,7 +80,7 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) mActivity).changeMenuLayout(true, false);
+        ((MainActivity) mActivity).changeMenuLayout(true, true);
     }
 
     @Override

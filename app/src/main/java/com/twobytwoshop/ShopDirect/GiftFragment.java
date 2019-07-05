@@ -61,7 +61,7 @@ public class GiftFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
-        ((MainActivity) mActivity).changeMenuLayout(true, false);
+        ((MainActivity) mActivity).changeMenuLayout(true, true);
         viewModel.callGifts();
 
         rcv.setHasFixedSize(true);

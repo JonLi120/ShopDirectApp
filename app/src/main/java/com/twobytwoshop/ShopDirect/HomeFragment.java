@@ -128,7 +128,7 @@ public class HomeFragment extends BaseFragment {
         homeRcv.setAdapter(adapter);
         adapter.setOnItemClickListener(((view, position) -> {
             activity.startProductFragment((String) view.getTag(), 1);
-            activity.changeMenuLayout(true, false);
+            activity.changeMenuLayout(true, true);
         }));
     }
 

@@ -23,7 +23,7 @@
     <EditText
         android:id="@+id/account_edit"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:background="@drawable/bg_round_border"
         android:hint="@string/login_fragment_account"
         android:textSize="25sp"
@@ -41,7 +41,7 @@
     <EditText
         android:id="@+id/pwd_edit"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:background="@drawable/bg_round_border"
         android:hint="@string/login_fragment_password"
         android:textSize="25sp"
@@ -60,7 +60,7 @@
     <Button
         android:id="@+id/login_btn"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:background="@drawable/bg_round_corner"
         android:text="@string/login_fragment_login"
         android:textColor="#C9D82A"

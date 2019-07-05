@@ -1,23 +1,20 @@
 package com.twobytwoshop.ShopDirect;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -28,7 +25,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.twobytwoshop.ShopDirect.adapter.OrderAdapter;
 import com.twobytwoshop.ShopDirect.adapter.PopSpinnerRVAdapter;
-import com.twobytwoshop.ShopDirect.core.BaseActivity;
+import com.twobytwoshop.ShopDirect.core.BaseFragment;
 import com.twobytwoshop.ShopDirect.core.Injection;
 import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
 import com.twobytwoshop.ShopDirect.models.Order;
@@ -39,22 +36,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class ShopCarActivity extends BaseActivity {
+public class ShopCarFragment extends BaseFragment {
 
     private static String KEY_PROXY = "KEY_PROXY";
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.toolbar_layout)
-    AppBarLayout toolbarLayout;
     @BindString(R.string.shop_car_activity_title)
     String shop_car_title;
     @BindView(R.id.shop_car_rcv)
@@ -91,29 +85,48 @@ public class ShopCarActivity extends BaseActivity {
     private PopupWindow popWindow;
     private int selectedDelivery = 100;
     private List<Order> orders = new ArrayList<>();
-    private boolean isProxy;
+    private boolean isProxy = false;
+    private Unbinder unbinder;
 
-    public static void startActivity(Context context, boolean isProxy) {
-        Intent intent = new Intent(context, ShopCarActivity.class);
-        intent.putExtra(KEY_PROXY, isProxy);
-        context.startActivity(intent);
+    public static ShopCarFragment newInstance(boolean isProxy) {
+
+        Bundle args = new Bundle();
+        args.putBoolean(KEY_PROXY, isProxy);
+
+        ShopCarFragment fragment = new ShopCarFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop_car);
-        ButterKnife.bind(this);
 
-        isProxy = getIntent().getBooleanExtra(KEY_PROXY, false);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isProxy = bundle.getBoolean(KEY_PROXY);
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_shop_car, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        ((MainActivity)mActivity).changeMenuLayout(true, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         setViewModel();
-        setToolbar();
         init();
     }
 
     private void setViewModel() {
-        ViewModelFactory factory = Injection.provideViewModelFactory(this);
+        ViewModelFactory factory = Injection.provideViewModelFactory(mActivity);
         viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
 
         viewModel.getOrders().observe(this, list -> {
@@ -122,22 +135,35 @@ public class ShopCarActivity extends BaseActivity {
             adapter.replaceData(list);
             viewModel.callCarInfo(getOrderParams());
         });
-    }
 
-    private void setToolbar() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setTitle(shop_car_title);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
+        viewModel.status.observe(this, map->{
+            if ("car_info".equals(map.get("tag"))) {
+                if (!"100".equals(map.get("code"))) {
+                    Toast.makeText(mActivity, (String) map.get("content"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        viewModel.getCarInfo().observe(this, response -> {
+            if (response != null && response.getData() != null) {
+                String price = String.valueOf(response.getData().getProduct_price());
+                String discount = String.valueOf(response.getData().getDiscount_price());
+                String tran_price = String.valueOf(response.getData().getTran_price());
+                String total_price = String.valueOf(response.getData().getOrder_price());
+
+                shopAmount.setText(price);
+                couponAmount.setText(discount);
+                deliveryAmount.setText(tran_price);
+                totalAmount.setText(total_price);
+            }
+        });
     }
 
     private void init() {
         viewModel.getOrder();
         shopCarRcv.setHasFixedSize(true);
-        shopCarRcv.setLayoutManager(new LinearLayoutManager(this));
-        shopCarRcv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        shopCarRcv.setLayoutManager(new LinearLayoutManager(mActivity));
+        shopCarRcv.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
         adapter = new OrderAdapter(null);
         shopCarRcv.setAdapter(adapter);
 
@@ -152,34 +178,29 @@ public class ShopCarActivity extends BaseActivity {
                     viewModel.updateOrderById((String) view.getTag(), 1);
                     break;
                 case R.id.item_shop_car_qut_sub:
-                    viewModel.updateOrderById((String) view.getTag(), -1);
+                    if (Objects.requireNonNull(adapter.getItem(position)).getQut() > 1) {
+                        viewModel.updateOrderById((String) view.getTag(), -1);
+                    }
                     break;
             }
         }));
 
         shopCarCoupon.setOnFocusChangeListener(((view, b) -> {
             if (!b) {
-                KeyboardUtil.hideShowKeyboard(view, this);
+                KeyboardUtil.hideShowKeyboard(view, mActivity);
             }
         }));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @OnClick({R.id.keep_shopping_btn, R.id.send_order_btn, R.id.shop_car_delivery_type})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.keep_shopping_btn:
-                finish();
+                assert getFragmentManager() != null;
+                getFragmentManager().popBackStack();
                 break;
             case R.id.send_order_btn:
-                PurchaserActivity.startActivity(this, getOrderParams());
+                ((MainActivity)mActivity).startPuchaserFragment(getOrderParams());
                 break;
             case R.id.shop_car_delivery_type:
                 initPopWindow();
@@ -207,11 +228,11 @@ public class ShopCarActivity extends BaseActivity {
     }
 
     private void createPopWindow(View view, List<String> data, BaseQuickAdapter.OnItemClickListener listener) {
-        View spinnerView = LayoutInflater.from(this).inflate(R.layout.pop_gender, null);
+        View spinnerView = LayoutInflater.from(mActivity).inflate(R.layout.pop_gender, null);
         RecyclerView recyclerView = spinnerView.findViewById(R.id.pop_gender_rcv);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
 
         PopSpinnerRVAdapter adapter = new PopSpinnerRVAdapter(data);
         recyclerView.setAdapter(adapter);
@@ -250,6 +271,12 @@ public class ShopCarActivity extends BaseActivity {
             return json.deleteCharAt(json.lastIndexOf(",")).append("}").toString();
         }
         return "{}";
+    }
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 }
 

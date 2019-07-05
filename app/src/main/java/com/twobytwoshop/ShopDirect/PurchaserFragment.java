@@ -1,23 +1,21 @@
 package com.twobytwoshop.ShopDirect;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,9 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.twobytwoshop.ShopDirect.adapter.PopSpinnerRVAdapter;
-import com.twobytwoshop.ShopDirect.core.BaseActivity;
+import com.twobytwoshop.ShopDirect.core.BaseFragment;
 import com.twobytwoshop.ShopDirect.core.Injection;
 import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
+import com.twobytwoshop.ShopDirect.utils.KeyboardUtil;
 import com.twobytwoshop.ShopDirect.utils.StateEnum;
 import com.twobytwoshop.ShopDirect.viewmodel.OrderViewModel;
 
@@ -35,18 +34,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class PurchaserActivity extends BaseActivity {
+public class PurchaserFragment extends BaseFragment {
 
     private static String KEY_MAP = "KEY_MAP";
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.pay_btn)
     Button payBtn;
     @BindView(R.id.purchaser_name)
@@ -92,6 +91,10 @@ public class PurchaserActivity extends BaseActivity {
     private PopupWindow payPopWindow;
     private int selectedState = -1;
     private int selectedPay = 20;
+    private HashMap<String, String> map;
+    private String payPointLab = "點數兌換";
+    private int orderStatus = 1;
+    private Unbinder unbinder;
 
     static class IncludedLayout {
         @BindView(R.id.view_input_lab)
@@ -100,17 +103,23 @@ public class PurchaserActivity extends BaseActivity {
         EditText value;
     }
 
-    public static void startActivity(Context context, HashMap<String, String> map) {
-        Intent intent = new Intent(context, PurchaserActivity.class);
-        intent.putExtra(KEY_MAP, map);
-        context.startActivity(intent);
+    public static PurchaserFragment newInstance(HashMap<String, String> map) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_MAP, map);
+
+        PurchaserFragment fragment = new PurchaserFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
+
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_purchaser);
-        ButterKnife.bind(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_purchaser, container, false);
+        unbinder = ButterKnife.bind(this, view);
+
         ButterKnife.bind(purchaserNameLayout, purchaserNameView);
         ButterKnife.bind(purchaserMailLayout, purchaserMailView);
         ButterKnife.bind(purchaserPhoneLayout, purchaserPhoneView);
@@ -123,25 +132,67 @@ public class PurchaserActivity extends BaseActivity {
         ButterKnife.bind(receiverPostalCodeLayout, receiverPostalCodeView);
         ButterKnife.bind(receiverAddressLayout, receiverAddressView);
 
-        setViewModel();
-        setToolbar();
-        init();
+        orderStatus = sp.getOrderStatus();
 
-        HashMap<String, String> map = (HashMap<String, String>) getIntent().getSerializableExtra(KEY_MAP);
+        ((MainActivity)mActivity).changeMenuLayout(true, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        purchaserNameLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        purchaserMailLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        purchaserPhoneLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        receiverNameLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        receiverMailLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        receiverPhoneLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        receiverCountryLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        receiverCityLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        receiverAreaLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        receiverPostalCodeLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+        receiverAddressLayout.value.setOnFocusChangeListener(new FocusChangeListener());
+
+        setViewModel();
+        init();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ((MainActivity)mActivity).changeMenuLayout(true, false);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            map = (HashMap<String, String>)bundle.getSerializable(KEY_MAP);
+        }
     }
 
     private void setViewModel() {
-        ViewModelFactory factory = Injection.provideViewModelFactory(this);
+        ViewModelFactory factory = Injection.provideViewModelFactory(mActivity);
         viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
-    }
 
-    private void setToolbar() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setTitle("訂購人資訊");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
+        viewModel.getOrderInfo().observe(this, response -> {
+            if ("100".equals(response.getCode())) {
+                WebActivity.startActivity(mActivity, response.getUrl());
+            }
+        });
+
+        viewModel.status.observe(this, map -> {
+            if ("order_info".equals(map.get("tag"))) {
+                Toast.makeText(mActivity, (String) map.get("content"), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        viewModel.showLoading.observe(this, showLoadingBean -> {
+            if (showLoadingBean.isShow()) {
+                ((MainActivity)mActivity).showLoadingDialog(showLoadingBean.getContent());
+            } else {
+                ((MainActivity)mActivity).dismissLoadingDialog();
+            }
+        });
     }
 
     private void init() {
@@ -171,16 +222,21 @@ public class PurchaserActivity extends BaseActivity {
         receiverAreaLayout.value.setFocusable(false);
         receiverAreaLayout.value.setOnClickListener((view)-> initStatePopWindows());
 
-        paymentMode.setText(payArr[0]);
+        if (orderStatus == 1) {
+            paymentMode.setText(payArr[0]);
+        } else {
+            paymentMode.setText(payPointLab);
+        }
         paymentMode.setOnClickListener((view -> initPayModePopWindows()));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+    public class FocusChangeListener implements View.OnFocusChangeListener {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!b) {
+                KeyboardUtil.hideShowKeyboard(view, mActivity);
+            }
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void initStatePopWindows() {
@@ -206,9 +262,17 @@ public class PurchaserActivity extends BaseActivity {
             return;
         }
 
-        createPopWindow("pay", paymentMode, Arrays.asList(payArr), (adapter, view, position) -> {
-            paymentMode.setText(payArr[position]);
-            selectedState = position == 0 ? 20 : 10;
+        List<String> data = new ArrayList<>();
+
+        if (orderStatus == 1) {
+            data.addAll(Arrays.asList(payArr));
+        } else if (orderStatus == 2) {
+            data.add(payPointLab);
+        }
+
+        createPopWindow("pay", paymentMode, data, (adapter, view, position) -> {
+            paymentMode.setText(data.get(position));
+            selectedPay = position == 0 ? 20 : 10;
 
             if (payPopWindow != null) {
                 payPopWindow.dismiss();
@@ -217,11 +281,11 @@ public class PurchaserActivity extends BaseActivity {
     }
 
     private void createPopWindow(String tag, View view, List<String> data, BaseQuickAdapter.OnItemClickListener listener) {
-        View spinnerView = LayoutInflater.from(this).inflate(R.layout.pop_gender, null);
+        View spinnerView = LayoutInflater.from(mActivity).inflate(R.layout.pop_gender, null);
         RecyclerView recyclerView = spinnerView.findViewById(R.id.pop_gender_rcv);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
 
         PopSpinnerRVAdapter adapter = new PopSpinnerRVAdapter(data);
         recyclerView.setAdapter(adapter);
@@ -246,12 +310,45 @@ public class PurchaserActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.back_btn})
+    @OnClick({R.id.back_btn, R.id.pay_btn})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
-                finish();
+                assert getFragmentManager() != null;
+                getFragmentManager().popBackStack();
+                break;
+            case R.id.pay_btn:
+                Map<String, String> map = createOrder();
+                if (map != null) {
+                    viewModel.buildOrder(map);
+                }
                 break;
         }
+    }
+
+    private Map<String, String> createOrder() {
+        if (map != null) {
+            map.put("pay_way", String.valueOf(selectedPay));
+            map.put("o_name", purchaserNameLayout.value.getText().toString());
+            map.put("o_email", purchaserMailLayout.value.getText().toString());
+            map.put("o_phone", purchaserPhoneLayout.value.getText().toString());
+            map.put("r_name", receiverNameLayout.value.getText().toString());
+            map.put("r_email", receiverMailLayout.value.getText().toString());
+            map.put("r_phone", receiverPhoneLayout.value.getText().toString());
+            map.put("r_country", receiverCountryLayout.value.getText().toString());
+            map.put("r_city", receiverCityLayout.value.getText().toString());
+            map.put("r_area", receiverAreaLayout.value.getText().toString());
+            map.put("r_zipcode", receiverPostalCodeLayout.value.getText().toString());
+            map.put("r_address", receiverAddressLayout.value.getText().toString());
+
+            return map;
+        }
+        return null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 }

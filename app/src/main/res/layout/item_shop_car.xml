@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/item_shop_car_img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -53,10 +53,9 @@
 
     <ImageButton
         android:id="@+id/item_shop_car_qut_sub"
-        android:layout_width="30dp"
+        android:layout_width="24dp"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="15dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/ic_subtract"
         app:layout_constraintStart_toEndOf="@id/item_shop_car_qut_lab"
@@ -65,9 +64,9 @@
 
     <ImageButton
         android:id="@+id/item_shop_car_qut_plus"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="80dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="65dp"
         android:background="@drawable/ic_add"
         app:layout_constraintStart_toEndOf="@id/item_shop_car_qut_sub"
         app:layout_constraintBottom_toBottomOf="@id/item_shop_car_qut_sub"

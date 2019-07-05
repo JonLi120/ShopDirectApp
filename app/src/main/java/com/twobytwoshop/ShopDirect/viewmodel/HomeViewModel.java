@@ -145,6 +145,10 @@ public class HomeViewModel extends BaseViewModel {
                     map.put("tag", "wallet");
                     map.put("code", response.getCode());
                     map.put("content", getWalletState(response.getCode()));
+
+                    if (response.getCode().equals("100")) {
+                        map.put("url", response.getUrl());
+                    }
                     status.postValue(map);
                 }, NetworkError::error));
     }

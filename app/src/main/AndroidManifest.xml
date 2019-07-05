@@ -43,9 +43,9 @@
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
-        <activity android:name=".ShopCarActivity"
+        <activity android:name=".ShopCarFragment"
             android:screenOrientation="portrait" />
-        <activity android:name=".PurchaserActivity"
+        <activity android:name=".WebActivity"
             android:screenOrientation="portrait" />
     </application>
 

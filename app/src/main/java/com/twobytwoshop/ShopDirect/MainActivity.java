@@ -3,6 +3,7 @@ package com.twobytwoshop.ShopDirect;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -21,7 +22,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -33,10 +33,10 @@ import com.twobytwoshop.ShopDirect.adapter.DrawerAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseActivity;
 import com.twobytwoshop.ShopDirect.core.Injection;
 import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
-import com.twobytwoshop.ShopDirect.viewmodel.HomeViewModel;
 import com.twobytwoshop.ShopDirect.viewmodel.ProductViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindArray;
@@ -79,13 +79,15 @@ public class MainActivity extends BaseActivity {
     String wallet;
     @BindString(R.string.item_nav_gift)
     String gift;
+    @BindString(R.string.item_nav_company)
+    String company;
     @BindString(R.string.item_nav_logout)
     String logout;
     @BindDrawable(R.drawable.ic_close)
     Drawable close;
 
     private boolean isBack = false;
-    private boolean isSearch = true;
+    private boolean isShop = true;
     private ActionBar actionBar;
     private int carCount = 0;
     public boolean isProxy = false;
@@ -115,17 +117,24 @@ public class MainActivity extends BaseActivity {
 
         viewModel.getOrderCount().observe(this, count -> {
             carCount = count;
+            if (carCount == 0) sp.setOrderStatus(0);
             this.invalidateOptionsMenu();
         });
     }
 
     private void setToolbar() {
+        toolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+    }
+
+    public void setToolbarTitle(boolean isShow, String title) {
+        actionBar.setDisplayShowTitleEnabled(isShow);
+        actionBar.setTitle(title);
     }
 
     private void initView() {
@@ -175,6 +184,8 @@ public class MainActivity extends BaseActivity {
                 startUserFragment();
             } else if (wallet.equals(choiceLab)) {
                 startWalletFragment();
+            } else if (company.equals(choiceLab)) {
+                startCompanyFragment();
             }
         });
 
@@ -186,6 +197,28 @@ public class MainActivity extends BaseActivity {
 
                 if (f instanceof HomeFragment) {
                     f.onResume();
+                    setToolbarTitle(false, "");
+                }
+
+                Fragment current = getSupportFragmentManager().getFragments().get(stackCount - 1);
+                if (current instanceof ShopCarFragment) {
+                    setToolbarTitle(true, "購物車");
+                } else if (current instanceof PurchaserFragment){
+                    setToolbarTitle(true, "訂單資訊");
+                } else if (current instanceof UserFragment) {
+                    setToolbarTitle(true, "個人資料");
+                } else if (current instanceof CategoryFragment) {
+                    setToolbarTitle(true, "商品分類");
+                } else if (current instanceof GiftFragment) {
+                    setToolbarTitle(true, "贈品清單");
+                } else if (current instanceof CompanyFragment) {
+                    setToolbarTitle(true, "公司資訊");
+                } else if (current instanceof WalletFragment) {
+                    setToolbarTitle(true, "電子錢包");
+                } else if (current instanceof ProductListFragment) {
+                    setToolbarTitle(true, "商品清單");
+                } else if (current instanceof ProductFragment) {
+                    setToolbarTitle(true, "商品資訊");
                 }
             }
         });
@@ -221,7 +254,6 @@ public class MainActivity extends BaseActivity {
         ImageButton carIcon = actionView.findViewById(R.id.badge_icon_button);
         TextView badgeView = actionView.findViewById(R.id.badge_textView);
         if (carCount == 0) {
-            sp.setOrderStatus(0);
             badgeView.setVisibility(View.GONE);
         } else {
             badgeView.setVisibility(View.VISIBLE);
@@ -231,9 +263,16 @@ public class MainActivity extends BaseActivity {
             if (carCount == 0) {
                 Toast.makeText(this, "購物車無商品", Toast.LENGTH_LONG).show();
             } else {
-                ShopCarActivity.startActivity(this, isProxy);
+                if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mainDrawerLayout.closeDrawer(GravityCompat.START);
+                }
+                startShopCarFragment();
             }
         });
+
+        MenuItem shopCar = menu.findItem(R.id.car);
+        shopCar.setVisible(isShop);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -244,6 +283,7 @@ public class MainActivity extends BaseActivity {
                 getSupportFragmentManager().popBackStack();
                 if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
                     changeMenuLayout(false, true);
+                    addShopCar();
                 }
             } else {
                 if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -266,9 +306,10 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public void changeMenuLayout(boolean isBack, boolean isSearch) {
+    public void changeMenuLayout(boolean isBack, boolean isShop) {
         assert actionBar != null;
         this.isBack = isBack;
+        this.isShop = isShop;
         if (isBack) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
         } else {
@@ -351,6 +392,39 @@ public class MainActivity extends BaseActivity {
         String tag = WalletFragment.class.getSimpleName();
         if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
             WalletFragment fragment = WalletFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    public void startCompanyFragment() {
+        String tag = CompanyFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            CompanyFragment fragment = CompanyFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    public void startShopCarFragment() {
+        String tag = ShopCarFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            ShopCarFragment fragment = ShopCarFragment.newInstance(isProxy);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    public void startPuchaserFragment(HashMap<String, String> map) {
+        String tag = PurchaserFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            PurchaserFragment fragment = PurchaserFragment.newInstance(map);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.main_frame_layout, fragment, tag);
             ft.addToBackStack(null);

@@ -6,8 +6,10 @@ import com.twobytwoshop.ShopDirect.core.BaseViewModel;
 import com.twobytwoshop.ShopDirect.core.NetworkError;
 import com.twobytwoshop.ShopDirect.models.Order;
 import com.twobytwoshop.ShopDirect.models.api.response.CarResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.OrderResponse;
 import com.twobytwoshop.ShopDirect.repo.ProductRepository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ public class OrderViewModel extends BaseViewModel {
 
     private MutableLiveData<List<Order>> orders = new MutableLiveData<>();
     private MutableLiveData<CarResponse> carInfo = new MutableLiveData<>();
+    private MutableLiveData<OrderResponse> orderInfo = new MutableLiveData<>();
 
     public MutableLiveData<CarResponse> getCarInfo() {
         return carInfo;
@@ -30,6 +33,10 @@ public class OrderViewModel extends BaseViewModel {
 
     public MutableLiveData<List<Order>> getOrders() {
         return orders;
+    }
+
+    public MutableLiveData<OrderResponse> getOrderInfo() {
+        return orderInfo;
     }
 
     public OrderViewModel(ProductRepository repository) {
@@ -88,7 +95,90 @@ public class OrderViewModel extends BaseViewModel {
                 .subscribe(response -> {
                     if ("100".equals(response.getCode())) {
                         carInfo.postValue(response);
+                    } else {
+                        HashMap<String, Object> statusMap = new HashMap<>();
+                        statusMap.put("tag", "car_info");
+                        statusMap.put("code", response.getCode());
+                        statusMap.put("content", getCarInfoStatus(response.getCode()));
+                        status.postValue(statusMap);
                     }
                 }, NetworkError::error));
+    }
+
+    public void buildOrder(Map<String, String> map) {
+        disposable.add(repository.buildOrder(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> setShowLoading(true, ""))
+                .doFinally(() -> setShowLoading(false, ""))
+                .subscribe(response -> {
+                    if ("100".equals(response.getCode())) {
+                        deleteOrderAll();
+                        orderInfo.postValue(response);
+                    } else {
+                        HashMap<String, Object> statusMap = new HashMap<>();
+                        statusMap.put("tag", "order_info");
+                        statusMap.put("code", response.getCode());
+                        statusMap.put("content", getOrderInfoStatus(response.getCode()));
+                        status.postValue(statusMap);
+                    }
+                }, NetworkError::error));
+    }
+
+    private void deleteOrderAll() {
+        sp.setOrderStatus(0);
+        disposable.add(Single.fromCallable(() -> Single.just(repository.deleteAll())).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe());
+    }
+
+    private String getCarInfoStatus(String code) {
+        switch (code) {
+            case "200":
+                return "uuid 格式錯誤";
+            case "210":
+                return "uuid 找不到會員";
+            case "220":
+                return "uuid 狀態異常";
+            case "300":
+                return "PID 格式錯誤";
+            case "310":
+                return "isMD 格式錯誤";
+            case "320":
+                return "tran_way 格式錯誤";
+            case "501":
+                return "贈品與商品不能再同一訂單中";
+        }
+        return "";
+    }
+
+    private String getOrderInfoStatus(String code) {
+        switch (code) {
+            case "200":
+                return "uuid 格式錯誤";
+            case "210":
+                return "uuid 找不到會員";
+            case "220":
+                return "uuid 狀態異常";
+            case "300":
+                return "PID 格式錯誤";
+            case "310":
+                return "isMD 格式錯誤";
+            case "320":
+                return "tran_way 格式錯誤";
+            case "401":
+                return "訂購人 資料格式錯誤";
+            case "402":
+                return "收件人 資料格式錯誤";
+            case "501":
+                return "贈品與商品不能再同一訂單中";
+            case "502":
+                return "非 MD身分 不能只用電子錢包";
+            case "503":
+                return "pay_way 只能輸入 10 or 20";
+            case "504":
+                return "使用電子錢包付款,電子錢包餘額不足";
+            case "505":
+                return "兌換贈品點數不足";
+        }
+        return "";
     }
 }
