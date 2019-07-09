@@ -22,12 +22,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.navigation.NavigationView;
 import com.twobytwoshop.ShopDirect.adapter.DrawerAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseActivity;
@@ -81,6 +83,8 @@ public class MainActivity extends BaseActivity {
     String gift;
     @BindString(R.string.item_nav_company)
     String company;
+    @BindString(R.string.item_nav_order)
+    String order;
     @BindString(R.string.item_nav_logout)
     String logout;
     @BindDrawable(R.drawable.ic_close)
@@ -186,6 +190,8 @@ public class MainActivity extends BaseActivity {
                 startWalletFragment();
             } else if (company.equals(choiceLab)) {
                 startCompanyFragment();
+            } else if (order.equals(choiceLab)) {
+                startSearchOrderFragment();
             }
         });
 
@@ -197,14 +203,14 @@ public class MainActivity extends BaseActivity {
 
                 if (f instanceof HomeFragment) {
                     f.onResume();
-                    setToolbarTitle(false, "");
+                    changeMenuLayout(false, true);
                 }
 
                 Fragment current = getSupportFragmentManager().getFragments().get(stackCount - 1);
                 if (current instanceof ShopCarFragment) {
                     setToolbarTitle(true, "購物車");
                 } else if (current instanceof PurchaserFragment){
-                    setToolbarTitle(true, "訂單資訊");
+                    setToolbarTitle(true, "購物資訊");
                 } else if (current instanceof UserFragment) {
                     setToolbarTitle(true, "個人資料");
                 } else if (current instanceof CategoryFragment) {
@@ -219,6 +225,10 @@ public class MainActivity extends BaseActivity {
                     setToolbarTitle(true, "商品清單");
                 } else if (current instanceof ProductFragment) {
                     setToolbarTitle(true, "商品資訊");
+                } else if (current instanceof OrderFragment) {
+                    setToolbarTitle(true, "我的訂單");
+                } else if (current instanceof OrderInfoFragment) {
+                    setToolbarTitle(true, "訂單詳細");
                 }
             }
         });
@@ -313,6 +323,7 @@ public class MainActivity extends BaseActivity {
         if (isBack) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
         } else {
+            setToolbarTitle(false, "");
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
         this.invalidateOptionsMenu();
@@ -432,6 +443,30 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void startSearchOrderFragment() {
+        String tag = OrderFragment.class.getSimpleName();
+
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            OrderFragment fragment = OrderFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
+    public void startOrderInfoFragment(String oid) {
+        String tag = OrderInfoFragment.class.getSimpleName();
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
+            OrderInfoFragment fragment = OrderInfoFragment.newInstance(oid);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main_frame_layout, fragment, tag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
+    }
+
     private List<String> getNavList() {
         List<String> list = new ArrayList<>();
         List<Integer> imgList = new ArrayList<>();
@@ -440,12 +475,12 @@ public class MainActivity extends BaseActivity {
         int count = 0;
         for (String item : navArr) {
             if (isProxy) {
-                if (count != 3 && count != 5) {
+                if (count != 3 && count != 5 && count != 7) {
                     list.add(item);
                     imgList.add(imgs.getResourceId(count, 0));
                 }
             } else {
-                if (count != 2 && count != 6) {
+                if (count != 2 && count != 6 && count != 7) {
                     list.add(item);
                     imgList.add(imgs.getResourceId(count, 0));
                 }

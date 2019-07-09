@@ -68,13 +68,14 @@ public class CompanyFragment extends BaseFragment {
                 return true;
             }
 
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed();
-            }
+//            @Override
+//            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//                handler.proceed();
+//            }
         });
 
-        webView.loadUrl("https://www.google.com.tw");
+        String url = "http://2by2shop.com/api/walletpay/20190110054327931";
+        webView.loadUrl(url);
     }
 
     @Override

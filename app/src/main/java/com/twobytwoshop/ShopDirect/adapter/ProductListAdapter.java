@@ -1,6 +1,7 @@
 package com.twobytwoshop.ShopDirect.adapter;
 
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,6 +58,7 @@ public class ProductListAdapter extends BaseQuickAdapter<ProductListResponse.Dat
             ppLab.setVisibility(View.GONE);
             cpLab.setVisibility(View.GONE);
         } else {
+            price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             price.setText(String.format(format_price, item.getFixprice()));
             discountPrice.setText(String.format(format_price, item.getPrice()));
             ppLab.setText(String.format(format_pp, item.getPp()));

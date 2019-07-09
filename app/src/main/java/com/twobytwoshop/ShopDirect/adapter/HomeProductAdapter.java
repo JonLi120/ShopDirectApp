@@ -1,6 +1,7 @@
 package com.twobytwoshop.ShopDirect.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,6 +120,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         }
 
         void setItemProductPrice(String price) {
+            itemProductPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             itemProductPrice.setText(String.format(format_price, price));
         }
 

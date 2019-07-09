@@ -6,7 +6,9 @@ import com.twobytwoshop.ShopDirect.core.BaseViewModel;
 import com.twobytwoshop.ShopDirect.core.NetworkError;
 import com.twobytwoshop.ShopDirect.models.Order;
 import com.twobytwoshop.ShopDirect.models.api.response.CarResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.OrderInfoResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.OrderResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.SearchOrderResponse;
 import com.twobytwoshop.ShopDirect.repo.ProductRepository;
 
 import java.util.HashMap;
@@ -26,6 +28,8 @@ public class OrderViewModel extends BaseViewModel {
     private MutableLiveData<List<Order>> orders = new MutableLiveData<>();
     private MutableLiveData<CarResponse> carInfo = new MutableLiveData<>();
     private MutableLiveData<OrderResponse> orderInfo = new MutableLiveData<>();
+    private MutableLiveData<SearchOrderResponse> searchOrders = new MutableLiveData<>();
+    private MutableLiveData<OrderInfoResponse> orderInfoResponse = new MutableLiveData<>();
 
     public MutableLiveData<CarResponse> getCarInfo() {
         return carInfo;
@@ -37,6 +41,14 @@ public class OrderViewModel extends BaseViewModel {
 
     public MutableLiveData<OrderResponse> getOrderInfo() {
         return orderInfo;
+    }
+
+    public MutableLiveData<SearchOrderResponse> getSearchOrders() {
+        return searchOrders;
+    }
+
+    public MutableLiveData<OrderInfoResponse> getOrderInfoResponse() {
+        return orderInfoResponse;
     }
 
     public OrderViewModel(ProductRepository repository) {
@@ -130,6 +142,39 @@ public class OrderViewModel extends BaseViewModel {
         disposable.add(Single.fromCallable(() -> Single.just(repository.deleteAll())).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe());
     }
 
+    public void searchOrder() {
+        String id = sp.getUUID();
+        disposable.add(repository.searchOrder(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> setShowLoading(true, ""))
+                .doFinally(() -> setShowLoading(false, ""))
+                .subscribe(response ->{
+                    if ("100".equals(response.getCode())) {
+                        searchOrders.postValue(response);
+                    } else {
+                        HashMap<String, Object> statusMap = new HashMap<>();
+                        statusMap.put("tag", "order_search");
+                        statusMap.put("code", response.getCode());
+                        statusMap.put("content", getOrderSearchStatus(response.getCode()));
+                        status.postValue(statusMap);
+                    }
+                }, NetworkError::error));
+    }
+
+    public void searchOrderInfo(String oid) {
+        disposable.add(repository.getOrderInfo(oid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> setShowLoading(true, ""))
+                .doFinally(() -> setShowLoading(false, ""))
+                .subscribe(response -> {
+                    if ("100".equals(response.getCode())) {
+                        orderInfoResponse.postValue(response);
+                    }
+                }, NetworkError::error));
+    }
+
     private String getCarInfoStatus(String code) {
         switch (code) {
             case "200":
@@ -178,6 +223,18 @@ public class OrderViewModel extends BaseViewModel {
                 return "使用電子錢包付款,電子錢包餘額不足";
             case "505":
                 return "兌換贈品點數不足";
+        }
+        return "";
+    }
+
+    private String getOrderSearchStatus(String code) {
+        switch (code) {
+            case "200":
+                return "uuid 格式錯誤";
+            case "201":
+                return "找不到此uuid的會員";
+            case "202":
+                return "會員狀態異常常";
         }
         return "";
     }

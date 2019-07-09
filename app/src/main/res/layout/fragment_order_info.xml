@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:overScrollMode="never"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:background="@color/colorWindowBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/order_info_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/order_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="20190624090147287"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/colorHint"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/order_pay_way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/order_no"
+                    tools:text="付款方式：線上支付"/>
+
+                <TextView
+                    android:id="@+id/order_tran_way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toStartOf="@id/order_pay_way"
+                    app:layout_constraintTop_toBottomOf="@id/order_pay_way"
+                    tools:text="配送方式：公司自取"/>
+
+                <TextView
+                    android:id="@+id/order_discount_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_tran_way"
+                    app:layout_constraintStart_toStartOf="@id/order_pay_way"
+                    tools:text="優惠碼：ABC123"/>
+
+                <TextView
+                    android:id="@+id/order_product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_discount_code"
+                    app:layout_constraintStart_toStartOf="@id/order_pay_way"
+                    tools:text="購物金額：RM 100.0"/>
+
+                <TextView
+                    android:id="@+id/order_tran_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_product_price"
+                    app:layout_constraintStart_toStartOf="@id/order_pay_way"
+                    tools:text="運費金額：RM 17.0"/>
+
+                <TextView
+                    android:id="@+id/order_discount_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_tran_price"
+                    app:layout_constraintStart_toStartOf="@id/order_pay_way"
+                    tools:text="折扣金額：RM 0.0"/>
+
+                <TextView
+                    android:id="@+id/order_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_round_corner"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintTop_toTopOf="@id/order_pay_way"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@string/order_done"/>
+
+                <TextView
+                    android:id="@+id/pay_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_round_corner"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_status"
+                    app:layout_constraintEnd_toEndOf="@id/order_status"
+                    tools:text="@string/pay_done"/>
+
+                <TextView
+                    android:id="@+id/tran_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_round_corner"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/pay_status"
+                    app:layout_constraintEnd_toEndOf="@id/pay_status"
+                    tools:text="@string/pay_done"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/colorHint"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_discount_price"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/order_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_discount_price"
+                    app:layout_constraintEnd_toEndOf="@id/pay_status"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="訂單總金額：RM 120.7"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/order_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/order_info_view"
+            tools:text="2001/01/20 12:00:00"/>
+
+        <TextView
+            android:id="@+id/purchaser_lab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="訂購人資訊"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/order_info_view"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorHint"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/purchaser_lab"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintEnd_toEndOf="@id/order_info_view" />
+
+        <TextView
+            android:id="@+id/order_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/purchaser_lab"
+            tools:text="訂購人姓名：AAA"/>
+
+        <TextView
+            android:id="@+id/order_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/order_name"
+            tools:text="訂購人信箱：AAA"/>
+
+        <TextView
+            android:id="@+id/order_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/order_mail"
+            tools:text="訂購人電話：AAA"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="50dp"
+            android:layout_height="2dp"
+            android:background="@drawable/bg_round_corner"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintEnd_toEndOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/order_phone"/>
+
+        <TextView
+            android:id="@+id/receiver_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            tools:text="收貨人姓名：AAA"/>
+
+        <TextView
+            android:id="@+id/receiver_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/receiver_name"
+            tools:text="訂購人信箱：AAA"/>
+
+        <TextView
+            android:id="@+id/receiver_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/receiver_mail"
+            tools:text="訂購人電話：AAA"/>
+
+        <TextView
+            android:id="@+id/receiver_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintEnd_toStartOf="@id/receiver_city"
+            app:layout_constraintTop_toBottomOf="@id/receiver_phone"
+            tools:text="國家：AAA"/>
+
+        <TextView
+            android:id="@+id/receiver_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/receiver_country"
+            app:layout_constraintTop_toBottomOf="@id/receiver_country"
+            tools:text="國家：AAA"/>
+
+        <TextView
+            android:id="@+id/receiver_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/receiver_country"
+            app:layout_constraintTop_toBottomOf="@id/receiver_city"
+            tools:text="國家：AAA"/>
+
+        <TextView
+            android:id="@+id/receiver_postal_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/receiver_city"
+            app:layout_constraintTop_toBottomOf="@id/receiver_state"
+            tools:text="國家：AAA"/>
+
+        <TextView
+            android:id="@+id/receiver_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/receiver_postal_code"
+            tools:text="訂購人地址：AAA"/>
+
+        <TextView
+            android:id="@+id/product_lab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="訂購產品清單"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintTop_toBottomOf="@id/receiver_address"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorHint"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/product_lab"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintEnd_toEndOf="@id/order_info_view" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/product_rcv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintTop_toBottomOf="@id/product_lab"
+            app:layout_constraintStart_toStartOf="@id/order_info_view"
+            app:layout_constraintEnd_toEndOf="@id/order_info_view"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

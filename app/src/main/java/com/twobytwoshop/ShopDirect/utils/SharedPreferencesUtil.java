@@ -11,6 +11,8 @@ public class SharedPreferencesUtil {
     private String SP_KEY_ORDER_STATUS = "order_status"; // 1:一般商品，2:贈品
     private String SP_KEY_MDID = "mdid";
     private String SP_KEY_CODE = "mdid_code";
+    private String SP_KEY_NAME = "name";
+    private String SP_KEY_DEVICE_ID = "device_id";
 
     public static SharedPreferencesUtil getInstance() {
         if (util == null) {
@@ -62,5 +64,21 @@ public class SharedPreferencesUtil {
 
     public String getCode() {
         return helper.getString(SP_KEY_CODE, "");
+    }
+
+    public void setName(String name) {
+        helper.put(SP_KEY_NAME, name);
+    }
+
+    public String getName() {
+        return helper.getString(SP_KEY_NAME, "");
+    }
+
+    public void setDeviceId(String id) {
+        helper.put(SP_KEY_DEVICE_ID, id);
+    }
+
+    public String getDeviceId() {
+        return helper.getString(SP_KEY_DEVICE_ID, "");
     }
 }

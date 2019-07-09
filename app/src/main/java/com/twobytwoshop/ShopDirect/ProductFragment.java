@@ -1,5 +1,6 @@
 package com.twobytwoshop.ShopDirect;
 
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -151,6 +152,7 @@ public class ProductFragment extends BaseFragment {
                     productNumber.setText(String.format(numberFormat, response.getData().getSn()));
                     productPrice.setText(String.format(priceFormat, response.getData().getFixprice()));
                     productDiscountPrice.setText(String.format(priceFormat, response.getData().getPrice()));
+                    productPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -224,9 +226,12 @@ public class ProductFragment extends BaseFragment {
         @Override
         public void afterTextChanged(Editable editable) {
             productQutValue.removeTextChangedListener(this);
-            if (editable.length() != 0) {
-                qut = Integer.valueOf(editable.toString());
+            String num = editable.toString().replace(".", "");
+            if (num.length() != 0) {
+                qut = Integer.valueOf(num);
             }
+            editable.clear();
+            editable.append(num);
             productQutValue.addTextChangedListener(this);
         }
     };

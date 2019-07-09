@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -177,6 +178,7 @@ public class PurchaserFragment extends BaseFragment {
         viewModel.getOrderInfo().observe(this, response -> {
             if ("100".equals(response.getCode())) {
                 WebActivity.startActivity(mActivity, response.getUrl());
+                ((MainActivity)mActivity).startSearchOrderFragment();
             }
         });
 
@@ -215,7 +217,7 @@ public class PurchaserFragment extends BaseFragment {
         receiverMailLayout.value.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         receiverPhoneLayout.value.setInputType(InputType.TYPE_CLASS_PHONE);
         receiverPostalCodeLayout.value.setInputType(InputType.TYPE_CLASS_NUMBER);
-        receiverAddressLayout.value.setSingleLine(false);
+        receiverAddressLayout.value.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         receiverCountryLayout.value.setFocusable(false);
         receiverCountryLayout.value.setText("Malaysia");

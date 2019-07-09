@@ -21,6 +21,7 @@ import com.twobytwoshop.ShopDirect.core.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class WebActivity extends BaseActivity {
 
@@ -31,6 +32,8 @@ public class WebActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.cancel_btn)
     ImageButton cancelBtn;
+    @BindView(R.id.progress_bar)
+    MaterialProgressBar progressBar;
 
     public static void startActivity(Context context, String url) {
         Intent intent = new Intent(context, WebActivity.class);
@@ -64,13 +67,20 @@ public class WebActivity extends BaseActivity {
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                progressBar.setVisibility(View.VISIBLE);
                 view.loadUrl(url);
                 return true;
             }
 
+//            @Override
+//            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+////                handler.proceed();
+//            }
+
             @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed();
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
             }
         });
 

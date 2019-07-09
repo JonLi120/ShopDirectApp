@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/item_order_no_lab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/order_no"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_order_status" />
+
+    <TextView
+        android:id="@+id/item_order_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/item_order_no_lab"
+        app:layout_constraintTop_toBottomOf="@id/item_order_no_lab"
+        tools:text="20190704103155441" />
+
+    <TextView
+        android:id="@+id/item_order_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/item_order_amount_lab"
+        tools:text="RM 192.55" />
+
+    <TextView
+        android:id="@+id/item_order_amount_lab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/order_amount"
+        android:textSize="12sp"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/item_pay_status"/>
+
+    <TextView
+        android:id="@+id/item_order_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_order_amount"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="2001/02/01 12:00:00"/>
+
+    <TextView
+        android:id="@+id/item_order_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_corner"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@id/item_order_no_lab"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_pay_status"
+        tools:text="@string/order_done"/>
+
+    <TextView
+        android:id="@+id/item_pay_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_corner"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@id/item_order_status"
+        app:layout_constraintTop_toTopOf="@id/item_order_status"
+        app:layout_constraintEnd_toStartOf="@id/item_tran_status"
+        tools:text="@string/pay_done"/>
+
+    <TextView
+        android:id="@+id/item_tran_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_corner"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@id/item_pay_status"
+        app:layout_constraintTop_toTopOf="@id/item_order_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/pay_done"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

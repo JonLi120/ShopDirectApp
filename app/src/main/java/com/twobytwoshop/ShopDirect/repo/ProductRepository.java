@@ -5,9 +5,11 @@ import com.twobytwoshop.ShopDirect.models.Order;
 import com.twobytwoshop.ShopDirect.models.api.response.CarResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.CategoryResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.HomeResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.OrderInfoResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.OrderResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.ProductInfoResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.ProductListResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.SearchOrderResponse;
 import com.twobytwoshop.ShopDirect.repo.local.AppDatabase;
 import com.twobytwoshop.ShopDirect.repo.local.OrderDao;
 import com.twobytwoshop.ShopDirect.repo.remote.OrderService;
@@ -61,6 +63,10 @@ public class ProductRepository {
         return service.getGifts(BuildConfig.VERSION_NAME);
     }
 
+    public Single<SearchOrderResponse> searchOrder(String uuid) {
+        return orderService.searchOrder(uuid);
+    }
+
     public int getProductCount() {
         return orderDao.getProductCount();
     }
@@ -91,5 +97,9 @@ public class ProductRepository {
 
     public Single<OrderResponse> buildOrder(Map<String, String> parameter) {
         return orderService.buildOrder(parameter);
+    }
+
+    public Single<OrderInfoResponse> getOrderInfo(String oid) {
+        return orderService.getOrderInfo(oid);
     }
 }

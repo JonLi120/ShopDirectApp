@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.twobytwoshop.ShopDirect.core.BaseActivity;
 import com.twobytwoshop.ShopDirect.core.BaseFragment;
 import com.twobytwoshop.ShopDirect.core.Injection;
@@ -84,6 +85,7 @@ public class LoginFragment extends BaseFragment {
     @OnClick({R.id.login_btn})
     void onClick(View view) {
         if (view.getId() == R.id.login_btn) {
+
             assert mActivity != null;
             ((LoginActivity)mActivity).viewModel.callLogin(accountEdit.getText().toString(), pwdEdit.getText().toString());
         }

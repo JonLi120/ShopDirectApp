@@ -27,8 +27,8 @@
     <!-- menu end-->
 
     <!-- home fragment start-->
-    <string name="home_fragment_head_member">會員(%s)您好，歡迎來到2by2shop</string>
-    <string name="home_fragment_head_proxy">代理(%s)您好，歡迎來到2by2shop</string>
+    <string name="home_fragment_head_member">會員(%s), %s</string>
+    <string name="home_fragment_head_proxy">代理(%s), %s</string>
     <!-- home fragment end-->
 
     <!-- product item start-->
@@ -99,5 +99,20 @@
     <string name="goto_pay">前往付款</string>
     <string name="last_step">上一步</string>
     <!-- purchaser activity end-->
+
+    <!-- order item start -->
+    <string name="order_no">訂單編號</string>
+    <string name="order_amount">訂單金額</string>
+    <string name="order_new">新訂單</string>
+    <string name="order_error">訂單異常</string>
+    <string name="order_done">訂單完成</string>
+    <string name="order_seal">訂單封存</string>
+    <string name="order_cancel">取消訂單</string>
+    <string name="pay_not">尚未付款</string>
+    <string name="pay_done">已付款</string>
+    <string name="tran_not">尚未取貨</string>
+    <string name="tran_done">已出貨</string>
+    <string name="tran_company">公司取貨</string>
+    <!-- order item end -->
 
 </resources>

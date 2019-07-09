@@ -3,10 +3,16 @@ package com.twobytwoshop.ShopDirect.core;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
 import com.twobytwoshop.ShopDirect.BuildConfig;
+import com.twobytwoshop.ShopDirect.utils.SharedPreferencesUtil;
 
 import androidx.multidex.MultiDex;
+
+import java.util.UUID;
+
+import io.fabric.sdk.android.Fabric;
 
 public class BaseApplication extends Application {
 
@@ -40,5 +46,14 @@ public class BaseApplication extends Application {
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
         }
+
+        SharedPreferencesUtil.getInstance().setDeviceId(getMyUUID());
+
+        Fabric.with(this, new Crashlytics());
+    }
+
+    private String getMyUUID() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 }

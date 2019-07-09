@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.twobytwoshop.ShopDirect.core.BaseFragment;
@@ -73,6 +74,9 @@ public class WalletFragment extends BaseFragment {
             if ("wallet".equals(map.get("tag"))) {
                 if ("100".equals(map.get("code"))) {
                     WebActivity.startActivity(mActivity, (String) map.get("url"));
+                    assert getFragmentManager() != null;
+                    ((MainActivity)mActivity).changeMenuLayout(false, true);
+                    getFragmentManager().popBackStack();
                 } else {
                     Toast.makeText(mActivity, (String) map.get("content"), Toast.LENGTH_LONG).show();
                 }

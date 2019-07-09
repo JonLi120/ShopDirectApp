@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,46 +14,32 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.twobytwoshop.ShopDirect.adapter.ProductListAdapter;
+import com.twobytwoshop.ShopDirect.adapter.SearchOrderAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseFragment;
 import com.twobytwoshop.ShopDirect.core.Injection;
 import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
-import com.twobytwoshop.ShopDirect.viewmodel.ProductViewModel;
+import com.twobytwoshop.ShopDirect.viewmodel.OrderViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ProductListFragment extends BaseFragment {
-
-    private static final String KEY_CAID = "KEY_CAID";
+public class OrderFragment extends BaseFragment {
 
     @BindView(R.id.rcv)
     RecyclerView rcv;
     @BindView(R.id.none_data_lab)
     TextView noneDataLab;
     private Unbinder unbinder;
-    private ProductListAdapter adapter;
-    private ProductViewModel viewModel;
-    private String caid = "";
+    private SearchOrderAdapter adapter;
+    private OrderViewModel viewModel;
 
-    public static ProductListFragment newInstance(String caid) {
+    public static OrderFragment newInstance() {
         Bundle args = new Bundle();
-        args.putString(KEY_CAID, caid);
 
-        ProductListFragment fragment = new ProductListFragment();
+        OrderFragment fragment = new OrderFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-
-        if (bundle != null) {
-            caid = bundle.getString(KEY_CAID);
-        }
     }
 
     @Nullable
@@ -60,48 +47,51 @@ public class ProductListFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        setViewModel();
-        return view;
-    }
+        ((MainActivity) mActivity).changeMenuLayout(true, false);
 
-    private void setViewModel() {
         ViewModelFactory factory = Injection.provideViewModelFactory(mActivity);
-        viewModel = ViewModelProviders.of(this, factory).get(ProductViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
 
-        viewModel.getCategorySearched().observe(this, response -> {
-            if (response.getCode().equals("100")) {
-                if (response.getData() != null && response.getData().size() > 0) {
-                    adapter.replaceData(response.getData());
+        viewModel.showLoading.observe(this, bean -> {
+            if (bean.isShow()) {
+                ((MainActivity) mActivity).showLoadingDialog(bean.getContent());
+            } else {
+                ((MainActivity) mActivity).dismissLoadingDialog();
+            }
+        });
+
+        viewModel.getSearchOrders().observe(this, orders -> {
+            if (orders != null) {
+                if (orders.getData() != null && orders.getData().size() > 0) {
+                    adapter.replaceData(orders.getData());
                     noneDataLab.setVisibility(View.GONE);
                 } else {
                     noneDataLab.setVisibility(View.VISIBLE);
-                    noneDataLab.setText("目前無產品，請返回");
+                    noneDataLab.setText("目前無相關訂單資訊");
                 }
             }
         });
+
+        viewModel.status.observe(this, map -> {
+            if ("order_search".equals(map.get("tag"))) {
+                Toast.makeText(mActivity, (String) map.get("content"), Toast.LENGTH_LONG).show();
+            }
+        });
+        return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(v, savedInstanceState);
-
-        viewModel.callSearchCategory(caid);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel.searchOrder();
 
         rcv.setHasFixedSize(true);
         rcv.setLayoutManager(new LinearLayoutManager(mActivity));
         rcv.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
-        adapter = new ProductListAdapter(null);
+        adapter = new SearchOrderAdapter(null);
         rcv.setAdapter(adapter);
-        adapter.setOnItemClickListener(((adapter1, view, position) -> {
-            ((MainActivity) mActivity).startProductFragment((String) view.getTag(), 1);
-//            activity.changeMenuLayout(true, false);
-        }));
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity) mActivity).changeMenuLayout(true, true);
+        adapter.setOnItemClickListener(((adapter1, view1, position) -> ((MainActivity) mActivity).startOrderInfoFragment((String) view1.getTag())));
     }
 
     @Override

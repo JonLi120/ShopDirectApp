@@ -1,5 +1,6 @@
 package com.twobytwoshop.ShopDirect;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -134,9 +135,11 @@ public class HomeFragment extends BaseFragment {
 
     public void changeHeaderLab(boolean b) {
         if (b) {
-            homeHeaderLab.setText(String.format(proxy_format, sp.getCode()));
+            homeHeaderLab.setText(String.format(proxy_format, sp.getCode(), sp.getName()));
+            homeHeaderLab.setBackgroundColor(Color.parseColor("#FFFD3A3A"));
         } else {
-            homeHeaderLab.setText(String.format(member_format, sp.getUUID()));
+            homeHeaderLab.setText(String.format(member_format, sp.getUUID(), sp.getName()));
+            homeHeaderLab.setBackgroundColor(Color.parseColor("#0262CA"));
         }
     }
 
