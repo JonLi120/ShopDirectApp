@@ -157,6 +157,7 @@ public class PurchaserFragment extends BaseFragment {
 
         setViewModel();
         init();
+        viewModel.getUser();
     }
 
     @Override
@@ -194,6 +195,18 @@ public class PurchaserFragment extends BaseFragment {
             } else {
                 ((MainActivity)mActivity).dismissLoadingDialog();
             }
+        });
+
+        viewModel.getUserInfo().observe(this, userInfo -> {
+            purchaserNameLayout.value.setText(userInfo.getName());
+            purchaserPhoneLayout.value.setText(userInfo.getMobile_Nos());
+            purchaserMailLayout.value.setText(userInfo.getEmail());
+            receiverNameLayout.value.setText(userInfo.getName());
+            receiverMailLayout.value.setText(userInfo.getEmail());
+            receiverPhoneLayout.value.setText(userInfo.getMobile_Nos());
+            receiverPostalCodeLayout.value.setText(userInfo.getPostcode());
+            receiverAddressLayout.value.setText(userInfo.getAddress());
+            receiverAreaLayout.value.setText(StateEnum.getState(Integer.valueOf(userInfo.getState())));
         });
     }
 

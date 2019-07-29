@@ -3,9 +3,13 @@ package com.twobytwoshop.ShopDirect;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -72,7 +76,6 @@ public class LoginActivity extends BaseActivity {
             String tag = (String) map.get("tag");
             if ("login".equals(tag)) {
                 if ("100".equals(map.get("code"))) {
-                    sp.setUUID((String) map.get("uuid"));
                     startMainActivity();
                 }
             } else if ("check_register".equals(tag)){
@@ -143,5 +146,22 @@ public class LoginActivity extends BaseActivity {
         sp.setLogin(true);
         MainActivity.startActivity(this);
         finish();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }

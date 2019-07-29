@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,6 +37,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.material.navigation.NavigationView;
 import com.twobytwoshop.ShopDirect.adapter.DrawerAdapter;
 import com.twobytwoshop.ShopDirect.core.BaseActivity;
+import com.twobytwoshop.ShopDirect.core.ConstantConfig;
 import com.twobytwoshop.ShopDirect.core.Injection;
 import com.twobytwoshop.ShopDirect.core.ViewModelFactory;
 import com.twobytwoshop.ShopDirect.viewmodel.ProductViewModel;
@@ -110,6 +115,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        String id = sp.getUUID();
+        ConstantConfig.setAppUuid(id);
+
         setupViewModel();
         setToolbar();
         initView();
@@ -123,6 +131,14 @@ public class MainActivity extends BaseActivity {
             carCount = count;
             if (carCount == 0) sp.setOrderStatus(0);
             this.invalidateOptionsMenu();
+        });
+
+        viewModel.status.observe(this, map ->{
+            if ("logout".equals(map.get("tag"))) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
     }
 
@@ -235,10 +251,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void logout() {
-        sp.setUUID("");
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        viewModel.logout();
     }
 
     @Override
@@ -495,5 +508,23 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         addShopCar();
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }

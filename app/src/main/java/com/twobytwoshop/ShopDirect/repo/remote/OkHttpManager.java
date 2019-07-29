@@ -1,5 +1,7 @@
 package com.twobytwoshop.ShopDirect.repo.remote;
 
+import android.util.Log;
+
 import com.twobytwoshop.ShopDirect.BuildConfig;
 import com.twobytwoshop.ShopDirect.core.ConstantConfig;
 
@@ -28,8 +30,8 @@ public class OkHttpManager {
                         builder.addInterceptor(interceptor);
                     }
 
-                    builder.addNetworkInterceptor(new NetInterceptor());
                     builder.addInterceptor(new ParamsInterceptor());
+                    builder.addNetworkInterceptor(new NetInterceptor());
                     builder.connectTimeout(10, TimeUnit.SECONDS);
                     builder.readTimeout(10, TimeUnit.SECONDS);
                     builder.writeTimeout(10, TimeUnit.SECONDS);

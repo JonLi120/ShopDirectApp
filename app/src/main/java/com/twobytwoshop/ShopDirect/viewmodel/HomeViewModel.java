@@ -65,9 +65,6 @@ public class HomeViewModel extends BaseViewModel {
                     if (userInfoResponse.getCode().equals("100")) {
                         userRepository.deleteUser(userInfoResponse.getData());
                         userRepository.insertUser(userInfoResponse.getData());
-                        sp.setName(userInfoResponse.getData().getName());
-                        sp.setMDID(Integer.valueOf(userInfoResponse.getData().getMdid()));
-                        sp.setCode(userInfoResponse.getData().getCODE());
                     } else if (userInfoResponse.getCode().equals("220")){
                         value = -220;
                     }

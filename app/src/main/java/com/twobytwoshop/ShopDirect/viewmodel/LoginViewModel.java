@@ -1,15 +1,21 @@
 package com.twobytwoshop.ShopDirect.viewmodel;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.twobytwoshop.ShopDirect.core.BaseViewModel;
 import com.twobytwoshop.ShopDirect.core.NetworkError;
+import com.twobytwoshop.ShopDirect.models.api.response.LoginResponse;
+import com.twobytwoshop.ShopDirect.models.api.response.RegisterResponse;
 import com.twobytwoshop.ShopDirect.repo.UserRepository;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
+import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoginViewModel extends BaseViewModel {
@@ -24,6 +30,19 @@ public class LoginViewModel extends BaseViewModel {
         disposable.add(userRepository.login(acc, pwd)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .flatMap((Function<LoginResponse, SingleSource<LoginResponse>>) response -> {
+                    if ("100".equals(response.getCode())) {
+                        sp.setUUID(acc);
+                        sp.setName(response.getData().getName());
+                        String mdid = response.getData().getMdid() != null ? response.getData().getMdid() : "0";
+                        int mdidOfInt = Integer.parseInt(mdid);
+                        sp.setMDID(mdidOfInt);
+                        if (mdidOfInt != 0) {
+                            sp.setCode(response.getData().getCODE());
+                        }
+                    }
+                    return Single.just(response);
+                })
                 .doOnSubscribe(d -> setShowLoading(true, ""))
                 .doFinally(() -> setShowLoading(false, ""))
                 .subscribe(loginResponse -> {
@@ -31,7 +50,6 @@ public class LoginViewModel extends BaseViewModel {
                     map.put("tag", "login");
                     map.put("code", loginResponse.getCode());
                     map.put("content", getLoginStatusContext(loginResponse.getCode()));
-                    map.put("uuid", acc);
                     status.postValue(map);
                 }, NetworkError::error));
     }
@@ -39,9 +57,56 @@ public class LoginViewModel extends BaseViewModel {
     public void checkRegister(String sponsor, String name, String nric, String gender, String birthday,
                               String phone, String sp_name, String sp_ic, String state, String postcode, String address) {
 
+        if (!birthday.isEmpty()) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            try {
+                Calendar now = Calendar.getInstance();
+                Calendar bir = Calendar.getInstance();
+                bir.setTime(df.parse(birthday));
+
+                long diff = now.getTimeInMillis() - bir.getTimeInMillis();
+                long day = diff / (24 * 60 * 60 * 1000);
+
+                if (day < 18) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("tag", "check_register");
+                    map.put("code", "999");
+                    map.put("content", "會員需年滿18歲");
+                    status.postValue(map);
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+
+        if (phone.isEmpty()) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("tag", "check_register");
+            map.put("code", "999");
+            map.put("content", "請填寫電話欄位");
+            status.postValue(map);
+            return;
+        } else if (state.isEmpty()) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("tag", "check_register");
+            map.put("code", "999");
+            map.put("content", "請選擇地區");
+            status.postValue(map);
+            return;
+        }
+
         Map<String, String> params = getRegisterMap(sponsor, name, nric, gender, birthday, phone, sp_name, sp_ic, state, postcode, address);
         disposable.add(userRepository.signUpCheck(params)
                 .subscribeOn(Schedulers.io())
+                .flatMap((Function<RegisterResponse, SingleSource<RegisterResponse>>)response->{
+                    if ("100".equals(response.getCode())) {
+                        sp.setUUID(response.getUuid());
+                        sp.setName(response.getName());
+                    }
+                    return Single.just(response);
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> setShowLoading(true, ""))
                 .doFinally(() -> setShowLoading(false, ""))

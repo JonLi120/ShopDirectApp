@@ -129,6 +129,14 @@ public class ShopCarFragment extends BaseFragment {
         ViewModelFactory factory = Injection.provideViewModelFactory(mActivity);
         viewModel = ViewModelProviders.of(this, factory).get(OrderViewModel.class);
 
+        viewModel.showLoading.observe(this, bean -> {
+            if (bean.isShow()) {
+                ((MainActivity)mActivity).showLoadingDialog(bean.getContent());
+            } else {
+                ((MainActivity)mActivity).dismissLoadingDialog();
+            }
+        });
+
         viewModel.getOrders().observe(this, list -> {
             orders.clear();
             orders.addAll(list);
@@ -187,7 +195,7 @@ public class ShopCarFragment extends BaseFragment {
 
         shopCarCoupon.setOnFocusChangeListener(((view, b) -> {
             if (!b) {
-                KeyboardUtil.hideShowKeyboard(view, mActivity);
+                viewModel.callCarInfo(getOrderParams());
             }
         }));
     }
@@ -224,6 +232,7 @@ public class ShopCarFragment extends BaseFragment {
             if (popWindow != null) {
                 popWindow.dismiss();
             }
+            viewModel.callCarInfo(getOrderParams());
         });
     }
 

@@ -129,4 +129,25 @@ public class ProductViewModel extends BaseViewModel {
                 .doFinally(() -> setShowLoading(false, ""))
                 .subscribe(count -> orderCount.postValue(count), NetworkError::error));
     }
+
+    public void logout() {
+        disposable.add(Single.fromCallable(() -> Single.just(repository.deleteAll()))
+                .subscribeOn(Schedulers.io())
+                .flatMap((Function<Single<Integer>, SingleSource<Integer>>) num ->{
+                    sp.setUUID("");
+                    sp.setName("");
+                    sp.setLogin(false);
+                    sp.setMDID(0);
+                    sp.setCode("");
+                    sp.setOrderStatus(0);
+                    return num;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("tag", "logout");
+                    map.put("code", "100");
+                    status.postValue(map);
+                }));
+    }
 }

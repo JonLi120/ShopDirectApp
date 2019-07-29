@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData;
 import com.twobytwoshop.ShopDirect.core.BaseViewModel;
 import com.twobytwoshop.ShopDirect.core.NetworkError;
 import com.twobytwoshop.ShopDirect.models.Order;
+import com.twobytwoshop.ShopDirect.models.UserInfo;
 import com.twobytwoshop.ShopDirect.models.api.response.CarResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.OrderInfoResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.OrderResponse;
 import com.twobytwoshop.ShopDirect.models.api.response.SearchOrderResponse;
 import com.twobytwoshop.ShopDirect.repo.ProductRepository;
+import com.twobytwoshop.ShopDirect.repo.UserRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,12 +26,14 @@ import io.reactivex.schedulers.Schedulers;
 public class OrderViewModel extends BaseViewModel {
 
     private ProductRepository repository;
+    private UserRepository userRepository;
 
     private MutableLiveData<List<Order>> orders = new MutableLiveData<>();
     private MutableLiveData<CarResponse> carInfo = new MutableLiveData<>();
     private MutableLiveData<OrderResponse> orderInfo = new MutableLiveData<>();
     private MutableLiveData<SearchOrderResponse> searchOrders = new MutableLiveData<>();
     private MutableLiveData<OrderInfoResponse> orderInfoResponse = new MutableLiveData<>();
+    private MutableLiveData<UserInfo> userInfo = new MutableLiveData<>();
 
     public MutableLiveData<CarResponse> getCarInfo() {
         return carInfo;
@@ -51,8 +55,27 @@ public class OrderViewModel extends BaseViewModel {
         return orderInfoResponse;
     }
 
-    public OrderViewModel(ProductRepository repository) {
+    public MutableLiveData<UserInfo> getUserInfo() {
+        return userInfo;
+    }
+
+    public OrderViewModel(ProductRepository repository, UserRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
+    }
+
+    public void getUser() {
+        String id = sp.getUUID();
+        disposable.add(Single.fromCallable(() -> userRepository.searchUser(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> setShowLoading(true, ""))
+                .doFinally(() -> setShowLoading(false, ""))
+                .subscribe(list -> {
+                    if (list.size() > 0) {
+                        userInfo.postValue(list.get(0));
+                    }
+                }, NetworkError::error));
     }
 
     public void getOrder() {

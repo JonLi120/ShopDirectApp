@@ -238,6 +238,10 @@ public class UserFragment extends BaseFragment {
         spouseNRICLayout.value.setText(userInfo.getSpouse_ic());
         spouseBirthLayot.title.setText("Spouse DATE OF BIRTH");
         spouseBirthLayot.value.setText(userInfo.getSpouse_birthday());
+
+        if ("0".equals(userInfo.getMdid())) {
+            bankView.setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.change_pwd_btn, R.id.modified_btn, R.id.birthday_edit, R.id.gender_edit, R.id.state_edit, R.id.marital_edit})
